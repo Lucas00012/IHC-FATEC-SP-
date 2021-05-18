@@ -22,6 +22,15 @@ mat-icon {
     width: 100%
 }
 
+.loading-spinner {
+    margin-top: 70px;
+    margin-bottom: 70px;
+
+    mat-spinner {
+        margin: auto;
+    }
+}
+
 .font-white:not([disabled]) {
     color: white !important;
 }

@@ -18,13 +18,17 @@ export class ProjectsService {
         @Inject(AllocationsService) private _allocationsService: AllocationsService
     ) { }
 
-    getAll(objQuery?: any): Observable<Project[]> {
-        let query = buildQuery(objQuery);
-        let url = `${this._baseUrl}/projects${query}`;
+    getAll(userId?: number): Observable<Project[]> {
+        let url = `${this._baseUrl}/projects`;
+        let objQuery = { userId };
 
-        return this._http.get<Project[]>(url).pipe(
+        return this._allocationsService.getAll(objQuery).pipe(
+            switchMap((allocations) => this._http.get<Project[]>(url).pipe(
+                map((projects) => projects.filter(p => 
+                    allocations.some(a => a.userId == userId && p.id == a.projectId)))
+            )),
             catchError(_ => throwError("Erro ao obter os projetos."))
-        );
+        )
     }
 
     get(id?: number) {

@@ -37,7 +37,7 @@ export class AuthService {
 
     logout() {
         localStorage.removeItem(USER_KEY);
-        this.recarregar();
+        this.reload();
 
         this._router.navigate([""]);
     }
@@ -50,10 +50,10 @@ export class AuthService {
 
     load(user: User) {
         localStorage.setItem(USER_KEY, JSON.stringify(user));
-        this.recarregar();
+        this.reload();
     }
 
-    private recarregar() {
+    private reload() {
         this._reload$.next();
     }
 }

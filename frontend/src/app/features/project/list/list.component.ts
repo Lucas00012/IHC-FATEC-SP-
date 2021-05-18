@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { ProjectsService } from "@core/api/projects.api";
 import { AuthService } from "@core/auth/auth.service";
-import { map, switchMap } from "rxjs/operators";
+import { debounceTime, map, switchMap } from "rxjs/operators";
 
 @Component({
     templateUrl: "./list.component.html",
@@ -17,12 +17,7 @@ export class ListComponent {
     user$ = this._authService.user$;
 
     projects$ = this.user$.pipe(
-        map((user) => {
-            let objQuery = {
-                userId: user?.id 
-            }
-            return objQuery;
-        }),
-        switchMap((objQuery) => this._projectsService.getAll(objQuery))
+        debounceTime(500),
+        switchMap((user) => this._projectsService.getAll(user?.id))
     );
 }

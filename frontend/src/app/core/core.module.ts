@@ -3,6 +3,10 @@ import { LOCALE_ID, NgModule, Optional, SkipSelf } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { SharedModule } from "@shared/shared.module";
 import { ApiModule } from "./api/api.module";
+import localePt from '@angular/common/locales/pt';
+import { registerLocaleData } from "@angular/common";
+
+registerLocaleData(localePt);
 
 @NgModule({
     imports: [
