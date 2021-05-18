@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { BehaviorSubject } from "rxjs";
-import { map } from "rxjs/operators";
+import { map, shareReplay } from "rxjs/operators";
 import { User } from "../entities/database-entities";
 
 const USER_KEY = "scrup_app_user";
@@ -25,8 +25,15 @@ export class AuthService {
 
     private _reload$ = new BehaviorSubject<void | null>(null);
 
-    user$ = this._reload$.pipe(map(_ => this._user));
-    isLogged$ = this._reload$.pipe(map(_ => this._isLogged));
+    user$ = this._reload$.pipe(
+        map(_ => this._user), 
+        shareReplay(1)
+    );
+
+    isLogged$ = this._reload$.pipe(
+        map(_ => this._isLogged), 
+        shareReplay(1)
+    );
 
     logout() {
         localStorage.removeItem(USER_KEY);
