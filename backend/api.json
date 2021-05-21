@@ -11,8 +11,18 @@
       "email": "joao@gmail.com",
       "password": "123123",
       "id": 2
+    },
+    {
+      "name": "Kleber Matos",
+      "email": "kleber@gmail.com",
+      "password": "@123123",
+      "id": 3
     }
   ],
-  "projects": [],
-  "allocations": []
+  "projects": [
+
+  ],
+  "allocations": [
+
+  ]
 }

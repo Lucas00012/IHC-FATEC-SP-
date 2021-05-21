@@ -1,0 +1,35 @@
+@import "src/app/shared/material/theme.scss";
+
+.user-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 35px !important;
+    height: 35px !important;
+
+    color: white;
+    font-size: 14pt;
+    background-color: $primary-color;
+}
+
+.menu {
+    margin-bottom: 0.5em;
+}
+
+.user-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1em;
+
+    mat-form-field {
+        flex: 1;
+    }
+}
+
+.user-container {
+    max-height: 350px;
+    overflow-y: auto;
+}

@@ -1,10 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable, Optional } from "@angular/core";
 import { Allocation } from "@core/entities/database-entities";
+import { buildQuery } from "@shared/utils/utils";
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { API_BASE_URL } from "./api.module";
-import { buildQuery } from "./utils";
 
 @Injectable({
     providedIn: "root"
@@ -37,6 +37,14 @@ export class AllocationsService {
 
         return this._http.post<Allocation>(url, allocation).pipe(
             catchError(_ => throwError("Erro ao cadastrar a alocação."))
+        )
+    }
+
+    addMany(allocations: Allocation[]) {
+        let url = `${this._baseUrl}/allocations`;
+        
+        return this._http.post<Allocation[]>(url, allocations).pipe(
+            catchError(_ => throwError("Erro ao cadastrar as alocações."))
         )
     }
 

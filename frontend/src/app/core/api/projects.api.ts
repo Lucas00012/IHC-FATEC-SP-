@@ -2,11 +2,10 @@ import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable, Optional } from "@angular/core";
 import { Allocation, Project } from "@core/entities/database-entities";
 import { Responsability } from "@core/entities/value-entities";
-import { Observable, throwError } from "rxjs";
+import { combineLatest, Observable, throwError } from "rxjs";
 import { catchError, map, switchMap } from "rxjs/operators";
 import { AllocationsService } from "./allocations.api";
 import { API_BASE_URL } from "./api.module";
-import { buildQuery } from "./utils";
 
 @Injectable({
     providedIn: "root"
@@ -39,20 +38,17 @@ export class ProjectsService {
         )
     }
 
-    add(project: Project, userId?: number) {
+    add(project: Project, allocations: Allocation[], userId?: number) {
         let url = `${this._baseUrl}/projects`;
 
         return this._http.post<Project>(url, project).pipe(
-            map((project) => {
-                let allocation = <Allocation> {
-                    projectId: project.id,
-                    userId,
-                    responsability: Responsability.ScrumMaster
-                }
-                return allocation;
-            }),
-            switchMap((allocation) => this._allocationsService.add(allocation)),
-            catchError(_ => throwError("Erro ao cadastrar o projeto.")),
+            map((project) =>
+            <Allocation[]>[
+                { projectId: project.id, userId, responsability: Responsability.ScrumMaster },
+                ...allocations.map(a => ({ ...a, projectId: project.id }))
+            ]),
+            switchMap((allocations) => this._allocationsService.addMany(allocations)),
+            catchError(_ => throwError("Erro ao criar o projeto."))
         );
     }
 

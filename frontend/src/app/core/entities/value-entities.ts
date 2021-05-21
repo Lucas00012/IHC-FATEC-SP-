@@ -1,5 +1,6 @@
 export enum Responsability {
-    ScrumMaster="ScrumMaster",
-    ProductOwner="ProductOwner",
-    Employee="Employee"
+    ScrumMaster="Scrum Master",
+    ProductOwner="Product Owner",
+    Employee="Funcionário",
+    Developer="Desenvolvedor"
 }

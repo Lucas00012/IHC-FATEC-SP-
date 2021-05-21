@@ -1,10 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable, Optional } from "@angular/core";
 import { User } from "@core/entities/database-entities";
+import { buildQuery } from "@shared/utils/utils";
 import { Observable, of, throwError } from "rxjs";
 import { catchError, map, switchMap } from "rxjs/operators";
 import { API_BASE_URL } from "./api.module";
-import { buildQuery } from "./utils";
 
 @Injectable({
     providedIn: "root"

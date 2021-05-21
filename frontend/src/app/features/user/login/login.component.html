@@ -1,13 +1,13 @@
 <mat-card [formGroup]="form">
     <h1>Login</h1>
     <mat-form-field class="maximize" appearance="outline">
-        <mat-label>E-mail</mat-label>
+        <mat-label>E-mail *</mat-label>
         <input matInput formControlName="email">
         <mat-error *ngIf="form.get('email')?.hasError('required')">O campo é obrigatório</mat-error>
         <mat-error *ngIf="form.get('email')?.hasError('email')">O E-mail é inválido</mat-error>
     </mat-form-field>
     <mat-form-field class="maximize" appearance="outline">
-        <mat-label>Senha</mat-label>
+        <mat-label>Senha *</mat-label>
         <input matInput type="password" formControlName="password">
         <mat-error *ngIf="form.get('password')?.hasError('required')">O campo é obrigatório</mat-error>
     </mat-form-field>
