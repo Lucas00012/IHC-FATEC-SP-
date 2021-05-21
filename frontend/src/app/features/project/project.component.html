@@ -1,0 +1,17 @@
+<mat-card *ngIf="user$ | async as user">
+    <div>
+        <mat-icon>waving_hand</mat-icon>
+        Bem vindo, <strong>{{ user.name }}</strong>
+    </div>
+    <div *ngIf="now$ | async as now">
+        <span>
+            <mat-icon>event</mat-icon>
+            {{ now | date:'dd/MM/yyyy' }}
+        </span> 
+        <span>
+            <mat-icon>schedule</mat-icon>
+            {{ now | date:'hh:mm:ss' }}
+        </span>
+    </div>
+</mat-card>
+<router-outlet></router-outlet>

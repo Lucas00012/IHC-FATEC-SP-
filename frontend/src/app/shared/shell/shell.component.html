@@ -38,15 +38,20 @@
 </mat-sidenav-container>
 
 <ng-template #defaultHeader>
-    <a class="main-logo" [routerLink]="['']">ScrumApp</a>
+    <a class="main-logo" [routerLink]="['']">Scrum APP</a>
     <nav>
         <div>
             <a mat-button [routerLink]="['/help']">
                 <mat-icon>help</mat-icon> Ajuda
             </a>
-            <a mat-button *ngIf="isLogged" [routerLink]="['/project', 'list']">
-                <mat-icon>content_copy</mat-icon> Projetos
-            </a>
+            <button mat-button [matMenuTriggerFor]="menu">
+                <mat-icon>content_copy</mat-icon>
+                Projetos
+            </button>
+            <mat-menu #menu="matMenu">
+              <a mat-menu-item [routerLink]="['/project', 'list']">Listagem</a>
+              <a mat-menu-item [routerLink]="['/project', 'register']">Criar</a>
+            </mat-menu>
             <a mat-button *ngIf="!isLogged" [routerLink]="['/user', 'login']">
                 <mat-icon>person</mat-icon> Login
             </a>

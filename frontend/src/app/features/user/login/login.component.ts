@@ -29,7 +29,6 @@ export class LoginComponent {
 
     this._usersService.login(email, password).pipe(
       tap((user) => this._authService.login(user)),
-      tap(_ => this._printService.printSuccess("Seja bem vindo de volta!")),
       catchError((err) => this._printService.printError(err, err))
     ).subscribe();
   }

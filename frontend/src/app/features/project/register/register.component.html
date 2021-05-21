@@ -1,0 +1,54 @@
+<mat-card [formGroup]="form">
+    <div class="split menu">
+        <h1>Cadastrar</h1>
+        <button mat-raised-button color="primary" class="font-white" (click)="create()">
+            <mat-icon>save</mat-icon>
+            Salvar
+        </button>
+    </div>
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Nome (projeto) *</mat-label>
+        <input matInput formControlName="name">
+        <mat-error *ngIf="form.get('name')?.hasError('required')">O campo é obrigatório</mat-error>
+    </mat-form-field>
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Nome ou código (usuário)</mat-label>
+        <input matInput [formControl]="autocomplete" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="userOnChange($event)">
+            <mat-option *ngFor="let user of userOptions$ | async" [value]="user">
+            {{user.name}} #{{user.id}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+    <ng-container formArrayName="allocations">
+        <h1>
+            <mat-icon>people</mat-icon>
+            Usuários
+        </h1>
+        <p *ngIf="!allocations.controls.length">
+            Você ainda não adicionou usuários.
+        </p>
+        <div class="user-container">
+            <ng-container *ngFor="let allocation of allocations.controls; let i = index" [formGroupName]="i">
+                <div *ngIf="userById(allocation.value.userId) | async as user" class="user-item">
+                    <span class="user-logo">{{ user.name[0] }}</span>
+                    <mat-form-field>
+                        <mat-label>Usuário</mat-label>
+                        <input matInput value="{{ user.name }} #{{ user.id }}" readonly>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Cargo</mat-label>
+                        <mat-select formControlName="responsability">
+                          <mat-option *ngFor="let responsability of responsabilityOptions" [value]="responsability">
+                            {{responsability}}
+                          </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button mat-icon-button (click)="removeAllocation(i)" color="primary">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </ng-container>
+        </div>
+    </ng-container>
+</mat-card>

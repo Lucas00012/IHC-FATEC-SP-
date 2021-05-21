@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable, Optional } from "@angular/core";
 import { User } from "@core/entities/database-entities";
+import { buildQuery } from "@shared/utils/utils";
 import { Observable, of, throwError } from "rxjs";
 import { catchError, map, switchMap } from "rxjs/operators";
 import { API_BASE_URL } from "./api.module";
@@ -14,8 +15,9 @@ export class UsersService {
         @Optional() @Inject(API_BASE_URL) private _baseUrl: string
     ) { }
 
-    getAll(): Observable<User[]> {
-        let url = `${this._baseUrl}/users`;
+    getAll(objQuery?: any): Observable<User[]> {
+        let query = buildQuery(objQuery);
+        let url = `${this._baseUrl}/users${query}`;
 
         return this._http.get<User[]>(url).pipe(
             catchError(_ => throwError("Erro ao obter os usuários."))
@@ -47,13 +49,14 @@ export class UsersService {
     }
 
     login(email: string, password: string) {
-        let url = `${this._baseUrl}/users?email=${email}&password=${password}`;
+        let objQuery = { email, password };
 
-        return this._http.get<User[]>(url).pipe(
+        return this.getAll(objQuery).pipe(
             map((users) => users[0]),
             switchMap((user) => !user 
                 ? throwError("Erro ao realizar o login. Verifique seus dados e tente novamente.")
-                : of(user))
+                : of(user)
+            )
         );
     }
 
