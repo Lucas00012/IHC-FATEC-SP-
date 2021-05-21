@@ -20,35 +20,6 @@
     }
   ],
   "projects": [
-    {
-      "name": "projeto web",
-      "allocations": [
-        {
-          "userId": 2,
-          "responsability": "Desenvolvedor"
-        },
-        {
-          "userId": 3,
-          "responsability": "Desenvolvedor"
-        },
-        {
-          "userId": 1,
-          "responsability": "Scrum Master"
-        }
-      ],
-      "creation": 1621609905989,
-      "id": 1
-    },
-    {
-      "name": "abc",
-      "allocations": [
-        {
-          "userId": 1,
-          "responsability": "Scrum Master"
-        }
-      ],
-      "creation": 1621610057221,
-      "id": 2
-    }
+
   ]
 }
