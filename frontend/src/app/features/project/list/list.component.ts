@@ -19,10 +19,10 @@ export class ListComponent {
     projects$ = this.user$.pipe(
         debounceTime(500),
         switchMap(user => this._projectsService.getAll(user?.id).pipe(
-            map(projects => projects.map(p => 
+            map(projects => projects.map(project => 
                 ({ 
-                    ...p, 
-                    currentFunction: p.allocations.find(a => a.userId == user?.id)?.responsability 
+                    ...project, 
+                    currentFunction: project.allocations.find(a => a.userId == user?.id)?.responsability 
                 })
             ))
         )),

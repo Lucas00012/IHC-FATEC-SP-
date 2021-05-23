@@ -2,7 +2,7 @@ import { Inject, Injectable } from "@angular/core";
 import { ProjectsService } from "@core/api/projects.api";
 import { AuthService } from "@core/auth/auth.service";
 import { Responsability } from "@core/entities/value-entities";
-import { BehaviorSubject, of } from "rxjs";
+import { BehaviorSubject, combineLatest, of } from "rxjs";
 import { catchError, map, shareReplay, switchMap } from "rxjs/operators";
 
 @Injectable()
@@ -12,8 +12,10 @@ export class ProjectFeatureService {
         private _authService: AuthService
     ) { }
 
-    projectOptions$ = this._authService.user$.pipe(
-        switchMap(user => this._projectsService.getAll(user?.id)),
+    private _reload$ = new BehaviorSubject<void | null>(null);
+
+    projectOptions$ = combineLatest([this._authService.user$, this._reload$]).pipe(
+        switchMap(([user, _]) => this._projectsService.getAll(user?.id)),
         shareReplay(1)
     );
 
@@ -22,15 +24,14 @@ export class ProjectFeatureService {
     currentProject$ = this.currentProjectId$.pipe(
         switchMap(id => {
             if (!id) return of(null);
-
             return this.projectOptions$.pipe(map(projects => projects.find(p => p.id == id)))
-        })
+        }),
+        shareReplay(1)
     );
 
-    currentAllocation$ = this._authService.user$.pipe(
-        switchMap(user => this.currentProject$.pipe(
-            map(project => project?.allocations.find(a => a.userId == user?.id))
-        ))
+    currentAllocation$ = combineLatest([this._authService.user$, this.currentProject$]).pipe(
+        map(([user, project]) => project?.allocations.find(a => a.userId == user?.id)),
+        shareReplay(1)
     );
 
     isScrumMaster$ = this.currentAllocation$.pipe(
@@ -43,5 +44,9 @@ export class ProjectFeatureService {
 
     updateCurrentProjectId(id: number | null) {
         this.currentProjectId$.next(id);
+    }
+
+    notifyProjectChanges() {
+        this._reload$.next();
     }
 }

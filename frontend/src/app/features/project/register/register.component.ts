@@ -10,6 +10,7 @@ import { PrintSnackbarService } from '@shared/print-snackbar/print-snackbar.serv
 import { fromForm, insensitiveCompare, insensitiveContains } from '@shared/utils/utils';
 import { combineLatest } from 'rxjs';
 import { catchError, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
+import { ProjectFeatureService } from '../tools/project-feature.service';
 
 @Component({
   selector: 'app-register',
@@ -21,6 +22,7 @@ export class RegisterComponent {
   constructor(
     private _fb: FormBuilder,
     private _projectsService: ProjectsService,
+    private _projectFeatureService: ProjectFeatureService,
     private _authService: AuthService,
     private _router: Router,
     private _printService: PrintSnackbarService,
@@ -49,12 +51,10 @@ export class RegisterComponent {
 
   users$ = this._usersService.getAllExceptCurrent().pipe(
     shareReplay(1)
-  )
+  );
 
   userOptions$ = combineLatest([this.autocomplete$, this.users$]).pipe(
-    map(([autocomplete, users]) => users.filter(user => 
-        insensitiveContains(user.name, autocomplete) || user.id?.toString().includes(autocomplete)
-    ))
+    map(([autocomplete, users]) => this.filter(users, autocomplete))
   );
 
   displayFn(user: User) {
@@ -82,6 +82,13 @@ export class RegisterComponent {
     this.allocations.removeAt(index);
   }
 
+  filter(users: User[], autocomplete: string) {
+    return users.filter(user =>
+      insensitiveContains(user.name, autocomplete) ||
+      user.id?.toString().includes(autocomplete)
+    );
+  }
+
   create() {
     if (this.form.invalid) return;
 
@@ -93,6 +100,7 @@ export class RegisterComponent {
       take(1),
       switchMap((creator) => this._projectsService.add(body, creator?.id)),
       tap(_ => this._router.navigate(["/project", "list"])),
+      tap(_ => this._projectFeatureService.notifyProjectChanges()),
       tap(_ => this._printService.printSuccess("Projeto criado com sucesso!")),
       catchError((err) => this._printService.printError(err, err))
     ).subscribe();
