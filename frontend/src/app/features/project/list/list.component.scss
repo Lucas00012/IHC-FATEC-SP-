@@ -1,3 +1,33 @@
+@import "src/app/shared/material/theme.scss";
+
 .project-item {
     margin-bottom: 0.5em;
+}
+
+.project-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 70px !important;
+    height: 70px !important;
+
+    color: white;
+    font-size: 20pt;
+    background-color: $primary-color;
+}
+
+.project-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1em;
+
+    .info {
+        margin-right: auto;
+
+        h1 {
+            margin: 0 !important;
+        }
+    }
 }

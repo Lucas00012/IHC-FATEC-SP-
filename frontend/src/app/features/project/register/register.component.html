@@ -1,7 +1,8 @@
 <mat-card [formGroup]="form">
     <div class="split menu">
         <h1>Cadastrar</h1>
-        <button mat-raised-button color="primary" class="font-white" (click)="create()">
+        <button mat-raised-button color="primary" class="font-white" [disabled]="form.invalid"
+            (click)="create()">
             <mat-icon>save</mat-icon>
             Salvar
         </button>
@@ -31,7 +32,6 @@
         <div class="user-container">
             <ng-container *ngFor="let allocation of allocations.controls; let i = index" [formGroupName]="i">
                 <div *ngIf="allocation.value.user as user" class="user-item">
-                    <span class="user-logo">{{ user.name[0] }}</span>
                     <mat-form-field>
                         <mat-label>Usuário</mat-label>
                         <input matInput value="{{ user.name }} #{{ user.id }}" readonly>

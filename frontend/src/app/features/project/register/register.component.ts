@@ -9,7 +9,7 @@ import { Responsability } from '@core/entities/value-entities';
 import { PrintSnackbarService } from '@shared/print-snackbar/print-snackbar.service';
 import { fromForm, insensitiveCompare, insensitiveContains } from '@shared/utils/utils';
 import { combineLatest } from 'rxjs';
-import { catchError, map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-register',
@@ -83,11 +83,14 @@ export class RegisterComponent {
   }
 
   create() {
+    if (this.form.invalid) return;
+
     let body = this.form.value;
     let allocations = body.allocations.map(a => ({ userId: a.user.id, responsability: a.responsability }));
     body = { ...body, allocations, creation: Date.now() };
 
     this.user$.pipe(
+      take(1),
       switchMap((creator) => this._projectsService.add(body, creator?.id)),
       tap(_ => this._router.navigate(["/project", "list"])),
       tap(_ => this._printService.printSuccess("Projeto criado com sucesso!")),

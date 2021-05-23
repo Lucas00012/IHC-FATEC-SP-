@@ -27,6 +27,8 @@ export class RegisterComponent {
   });
 
   register() {
+    if (this.form.invalid) return;
+
     const body = this.form.value;
     delete body.confirmPassword;
 

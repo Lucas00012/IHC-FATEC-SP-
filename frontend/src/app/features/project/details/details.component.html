@@ -1,1 +1,3 @@
-<h1 *ngIf="project$ | async as project">DETAILS</h1>
+<h1 *ngIf="project$ | async as project">
+    {{ project | json }}
+</h1>

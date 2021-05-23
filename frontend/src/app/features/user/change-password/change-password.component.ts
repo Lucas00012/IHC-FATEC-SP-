@@ -26,6 +26,8 @@ export class ChangePasswordComponent {
   });
 
   changePassword() {
+    if (this.form.invalid) return;
+
     const { oldPassword, newPassword } = this.form.value;
 
     this._authService.user$.pipe(

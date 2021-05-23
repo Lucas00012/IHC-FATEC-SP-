@@ -9,7 +9,7 @@
     {
       "name": "Joao Silva",
       "email": "joao@gmail.com",
-      "password": "123123",
+      "password": "321321",
       "id": 2
     },
     {
@@ -57,6 +57,21 @@
       ],
       "creation": 1621701044527,
       "id": 2
+    },
+    {
+      "name": "construção de erp",
+      "allocations": [
+        {
+          "userId": 1,
+          "responsability": "Funcionário"
+        },
+        {
+          "userId": 2,
+          "responsability": "Scrum Master"
+        }
+      ],
+      "creation": 1621727518786,
+      "id": 3
     }
   ]
 }

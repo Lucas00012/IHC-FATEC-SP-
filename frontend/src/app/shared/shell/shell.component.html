@@ -44,7 +44,7 @@
             <a mat-button [routerLink]="['/help']">
                 <mat-icon>help</mat-icon> Ajuda
             </a>
-            <button mat-button [matMenuTriggerFor]="menu">
+            <button mat-button [matMenuTriggerFor]="menu" *ngIf="isLogged">
                 <mat-icon>content_copy</mat-icon>
                 Projetos
             </button>

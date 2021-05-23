@@ -1,11 +1,25 @@
-<h1>Meus projetos</h1>
+<h1>MEUS PROJETOS</h1>
 
 <ng-container *ngIf="projects$ | async as projects; else loading">
     <p *ngIf="!projects.length">Você ainda não possui projetos.</p>
-    <mat-card *ngFor="let project of projects" class="project-item">
-        <h1 class="font-upper"> {{ project.name }} </h1>
-        <p> {{ project.creation | date:'dd/MM/yyyy' }} </p>
-        <a mat-raised-button color="accent" [routerLink]="['/project', 'details', project.id]">
+    <mat-card *ngFor="let project of projects" class="project-item project-container">
+        <span class="project-logo font-upper">
+            {{ project.name[0] }}
+        </span>
+        <div class="info">
+            <h1 class="font-upper"> {{ project.name }} </h1>
+            <span> 
+                <mat-icon>event</mat-icon>
+                {{ project.creation | date:'dd/MM/yyyy' }}
+            </span>
+            <span matTooltip="Sua função no projeto">
+                <mat-icon>manage_accounts</mat-icon>
+                {{ project.currentFunction }}
+            </span>
+        </div>
+        <a mat-raised-button color="primary" class="font-white"
+            [routerLink]="['/project', 'details', project.id]">
+            <mat-icon>arrow_forward</mat-icon>
             Acessar
         </a>
     </mat-card>
