@@ -6,10 +6,11 @@ export function buildQuery(objQuery?: any) {
     if (!objQuery) return "";
 
     var entries = Object.entries(objQuery)
-        .map(([key, value]) => `${key}=${value}`)
+        .map(([key, value]) => value ? `${key}=${value}` : null)
+        .filter(query => !!query)
         .join("&");
 
-    return `?${entries}`;
+    return entries.length ? `?${entries}` : "";
 }
 
 export function fromForm(control: AbstractControl, fieldNames: string[] = []) {

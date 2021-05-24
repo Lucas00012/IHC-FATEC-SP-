@@ -36,6 +36,9 @@
                         <mat-label>Usuário</mat-label>
                         <input matInput value="{{ user.name }} #{{ user.id }}" readonly>
                     </mat-form-field>
+                    <button mat-icon-button (click)="removeAllocation(i)" matTooltip="Remover">
+                        <mat-icon>delete</mat-icon>
+                    </button>
                     <mat-form-field>
                         <mat-label>Cargo</mat-label>
                         <mat-select formControlName="responsability">
@@ -44,9 +47,6 @@
                           </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <button mat-icon-button (click)="removeAllocation(i)">
-                        <mat-icon>delete</mat-icon>
-                    </button>
                 </div>
             </ng-container>
         </div>

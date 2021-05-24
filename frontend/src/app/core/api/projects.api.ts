@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable, Optional } from "@angular/core";
 import { Allocation, Project } from "@core/entities/database-entities";
 import { Responsability } from "@core/entities/value-entities";
+import { buildQuery } from "@shared/utils/utils";
 import { combineLatest, Observable, of, throwError } from "rxjs";
 import { catchError, map, switchMap } from "rxjs/operators";
 import { API_BASE_URL } from "./api.module";
@@ -15,8 +16,9 @@ export class ProjectsService {
         @Optional() @Inject(API_BASE_URL) private _baseUrl: string,
     ) { }
 
-    getAll(userId?: number): Observable<Project[]> {
-        let url = `${this._baseUrl}/projects`;
+    getAll(userId?: number, objQuery?: any): Observable<Project[]> {
+        let query = buildQuery(objQuery);
+        let url = `${this._baseUrl}/projects${query}`;
 
         return this._http.get<Project[]>(url).pipe(
             map((projects) => projects.filter(p => p.allocations.some(a => a.userId == userId))),

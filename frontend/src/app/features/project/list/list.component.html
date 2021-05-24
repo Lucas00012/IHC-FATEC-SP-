@@ -1,32 +1,44 @@
 <h1>MEUS PROJETOS</h1>
 
-<ng-container *ngIf="projects$ | async as projects; else loading">
-    <p *ngIf="!projects.length">Você ainda não possui projetos.</p>
-    <mat-card *ngFor="let project of projects" class="project-item project-container">
-        <span class="project-logo font-upper">
-            {{ project.name[0] }}
-        </span>
-        <div class="info">
-            <h1 class="font-upper"> {{ project.name }} </h1>
-            <span> 
-                <mat-icon>event</mat-icon>
-                {{ project.creation | date:'dd/MM/yyyy' }}
-            </span>
-            <span matTooltip="Sua função no projeto">
-                <mat-icon>manage_accounts</mat-icon>
-                {{ project.currentFunction }}
-            </span>
-        </div>
-        <a mat-raised-button color="primary" class="font-white"
-            [routerLink]="['/project', 'details', project.id]">
-            <mat-icon>arrow_forward</mat-icon>
-            Acessar
-        </a>
-    </mat-card>
-</ng-container>
+<div [formGroup]="form" class="container-fields">
+    <mat-form-field appearance="outline">
+        <mat-label>Pesquisar</mat-label>
+        <input matInput formControlName="name_like">
+        <button mat-icon-button matSuffix *ngIf="form.get('name_like')?.value" (click)="form.get('name_like')?.setValue('')">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+</div>
 
-<ng-template #loading>
+<ng-container *ngIf="fetching">
     <div class="loading-spinner">
         <mat-spinner></mat-spinner>
     </div>
-</ng-template>
+</ng-container>
+
+<ng-container *ngIf="projects$ | async as projects">
+    <ng-container *ngIf="!fetching">
+        <p *ngIf="!projects.length">Você ainda não possui projetos.</p>
+        <mat-card *ngFor="let project of projects" class="project-item project-container">
+            <span class="project-logo font-upper">
+                {{ project.name[0] }}
+            </span>
+            <div class="info">
+                <h1 class="font-upper"> {{ project.name }} </h1>
+                <span> 
+                    <mat-icon>event</mat-icon>
+                    {{ project.creation | date:'dd/MM/yyyy' }}
+                </span>
+                <span matTooltip="Sua função no projeto">
+                    <mat-icon>manage_accounts</mat-icon>
+                    {{ project.currentFunction }}
+                </span>
+            </div>
+            <a mat-raised-button color="primary" class="font-white"
+                [routerLink]="['/project', 'details', project.id]">
+                <mat-icon>arrow_forward</mat-icon>
+                Acessar
+            </a>
+        </mat-card>
+    </ng-container>
+</ng-container>

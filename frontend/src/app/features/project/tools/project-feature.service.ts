@@ -4,7 +4,7 @@ import { ProjectsService } from "@core/api/projects.api";
 import { AuthService } from "@core/auth/auth.service";
 import { Responsability } from "@core/entities/value-entities";
 import { BehaviorSubject, combineLatest, of } from "rxjs";
-import { catchError, map, shareReplay, switchMap } from "rxjs/operators";
+import { catchError, map, shareReplay, switchMap, tap } from "rxjs/operators";
 
 @Injectable()
 export class ProjectFeatureService {
@@ -25,12 +25,7 @@ export class ProjectFeatureService {
 
     currentProject$ = this.currentProjectId$.pipe(
         switchMap(id => this.projectOptions$.pipe(
-            map(projects => {
-                let currentProject = projects.find(p => p.id == id);
-                if(id && !currentProject) this._router.navigate([""]);
-
-                return currentProject;
-            })
+            map(projects => projects.find(p => p.id == id))
         )),
         shareReplay(1)
     );
