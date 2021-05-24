@@ -1,27 +1,30 @@
-<mat-card [formGroup]="form">
-    <div class="split menu">
-        <h1>Cadastrar</h1>
-        <button mat-raised-button color="primary" class="font-white" [disabled]="form.invalid"
-            (click)="create()">
-            <mat-icon>save</mat-icon>
-            Salvar
-        </button>
-    </div>
-    <mat-form-field class="maximize" appearance="outline">
-        <mat-label>Nome (projeto) *</mat-label>
-        <input matInput formControlName="name">
-        <mat-error *ngIf="form.get('name')?.hasError('required')">O campo é obrigatório</mat-error>
-    </mat-form-field>
-    <mat-form-field class="maximize" appearance="outline">
-        <mat-label>Nome ou código (usuário)</mat-label>
-        <input matInput [formControl]="autocomplete" [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="userOnChange($event)">
-            <mat-option *ngFor="let user of userOptions$ | async" [value]="user">
-            {{user.name}} #{{user.id}}
-            </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
-    <ng-container formArrayName="allocations">
+<ng-container [formGroup]="form">
+    <mat-card>
+        <div class="split menu">
+            <h1>Cadastrar</h1>
+            <button mat-raised-button color="primary" class="font-white" [disabled]="form.invalid"
+                (click)="create()">
+                <mat-icon>save</mat-icon>
+                Salvar
+            </button>
+        </div>
+        <mat-form-field class="maximize" appearance="outline">
+            <mat-label>Nome (projeto) *</mat-label>
+            <input matInput formControlName="name">
+            <mat-error *ngIf="form.get('name')?.hasError('required')">O campo é obrigatório</mat-error>
+        </mat-form-field>
+        <mat-form-field class="maximize" appearance="outline">
+            <mat-label>Nome ou código (usuário)</mat-label>
+            <input matInput [formControl]="autocomplete" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="userOnChange($event)">
+                <mat-option *ngFor="let user of userOptions$ | async" [value]="user">
+                {{user.name}} #{{user.id}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </mat-card>
+    
+    <mat-card formArrayName="allocations">
         <h1>
             <mat-icon>people</mat-icon>
             Usuários
@@ -50,5 +53,5 @@
                 </div>
             </ng-container>
         </div>
-    </ng-container>
-</mat-card>
+    </mat-card>
+</ng-container>
