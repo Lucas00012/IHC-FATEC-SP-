@@ -32,14 +32,14 @@
         <div class="user-container">
             <ng-container *ngFor="let allocation of allocations.controls; let i = index" [formGroupName]="i">
                 <div *ngIf="allocation.value.user as user" class="user-item">
-                    <mat-form-field>
+                    <mat-form-field appearance="outline">
                         <mat-label>Usuário</mat-label>
                         <input matInput value="{{ user.name }} #{{ user.id }}" readonly>
                     </mat-form-field>
-                    <button mat-icon-button (click)="removeAllocation(i)" matTooltip="Remover">
+                    <button mat-fab color="primary" class="delete-button" mat-icon-button (click)="removeAllocation(i)" matTooltip="Remover">
                         <mat-icon>delete</mat-icon>
                     </button>
-                    <mat-form-field>
+                    <mat-form-field appearance="outline">
                         <mat-label>Cargo</mat-label>
                         <mat-select formControlName="responsability">
                           <mat-option *ngFor="let responsability of responsabilityOptions" [value]="responsability">

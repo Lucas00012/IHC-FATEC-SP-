@@ -72,6 +72,25 @@
       ],
       "creation": 1621727518786,
       "id": 3
+    },
+    {
+      "name": "efg",
+      "allocations": [
+        {
+          "userId": 2,
+          "responsability": "Product Owner"
+        },
+        {
+          "userId": 3,
+          "responsability": "Funcionário"
+        },
+        {
+          "userId": 1,
+          "responsability": "Scrum Master"
+        }
+      ],
+      "creation": 1621863105063,
+      "id": 4
     }
   ]
 }
