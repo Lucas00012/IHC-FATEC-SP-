@@ -3,3 +3,8 @@ export enum Responsability {
     ProductOwner="Product Owner",
     Employee="Funcionário",
 }
+
+export enum TaskStatus {
+    Done="Concluída",
+    InProgress="Em andamento"
+}

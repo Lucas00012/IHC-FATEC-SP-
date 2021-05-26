@@ -1,4 +1,4 @@
-import { Responsability } from "./value-entities";
+import { Responsability, TaskStatus } from "./value-entities";
 
 export interface User {
     id?: number,
@@ -12,9 +12,17 @@ export interface Project {
     name: string,
     creation: Date,
     allocations: Allocation[],
+    tasks: Task[]
 }
 
 export interface Allocation {
     userId: number,
     responsability: Responsability
+}
+
+export interface Task {
+    userId: number,
+    description: string,
+    title: string,
+    status: TaskStatus
 }

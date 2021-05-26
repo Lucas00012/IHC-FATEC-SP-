@@ -1,0 +1,11 @@
+<button mat-raised-button class="font-white" color="primary">
+    <mat-icon>add</mat-icon>
+    Criar
+</button>
+
+<div class="tasks-container">
+    <p *ngIf="project.tasks.length">O projeto ainda não possui tarefas</p>
+    <mat-card *ngFor="let task of project.tasks">
+
+    </mat-card>
+</div>
