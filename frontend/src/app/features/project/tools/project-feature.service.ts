@@ -1,6 +1,7 @@
 import { Inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { ProjectsService } from "@core/api/projects.api";
+import { UsersService } from "@core/api/users.api";
 import { AuthService } from "@core/auth/auth.service";
 import { Responsability } from "@core/entities/value-entities";
 import { BehaviorSubject, combineLatest, of } from "rxjs";
@@ -11,6 +12,7 @@ export class ProjectFeatureService {
     constructor(
         private _projectsService: ProjectsService,
         private _authService: AuthService,
+        private _usersService: UsersService,
         private _router: Router
     ) { }
 
@@ -41,6 +43,15 @@ export class ProjectFeatureService {
 
     isProductOwner$ = this.currentAllocation$.pipe(
         map(allocation => allocation?.responsability == Responsability.ProductOwner)
+    );
+
+    usersProject$ = combineLatest([
+        this._usersService.getAll(),
+        this.currentProject$
+    ]).pipe(
+        map(([users, project]) => users.filter(u => 
+            project?.allocations.some(a => a.userId == u.id))),
+        shareReplay(1)
     );
 
     updateCurrentProjectId(id: number | null) {

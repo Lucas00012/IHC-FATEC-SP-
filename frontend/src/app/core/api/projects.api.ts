@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable, Optional } from "@angular/core";
 import { AuthService } from "@core/auth/auth.service";
-import { Allocation, Project } from "@core/entities/database-entities";
+import { Allocation, Project, Task } from "@core/entities/database-entities";
 import { Responsability } from "@core/entities/value-entities";
 import { buildQuery } from "@shared/utils/utils";
 import { combineLatest, Observable, of, throwError } from "rxjs";
@@ -15,7 +15,7 @@ export class ProjectsService {
     constructor(
         @Inject(HttpClient) private _http: HttpClient,
         @Optional() @Inject(API_BASE_URL) private _baseUrl: string,
-        @Inject(AuthService) private _authService: AuthService
+        @Inject(AuthService) private _authService: AuthService,
     ) { }
 
     getAll(userId?: number, objQuery?: any): Observable<Project[]> {
@@ -76,6 +76,31 @@ export class ProjectsService {
                     : of(project)
                 ),
                 switchMap(_ => this._http.patch<Project>(url, body))
+            ))
+        );
+    }
+
+    addTask(id: number | undefined | null, body: Task) {
+        let url = `${this._baseUrl}/projects/${id}`;
+
+        return this._authService.user$.pipe(
+            take(1),
+            switchMap(user => this.get(id).pipe(
+                switchMap(project => !project.allocations.some(a => a.userId == user?.id && a.responsability == Responsability.ScrumMaster)
+                    ? throwError("O projeto pertence a outro usuário")
+                    : of(project)
+                ),
+                map(project => {
+                    let userExists = project.allocations?.some(u => u.userId == body.userId);
+                    let userId = userExists ? body.userId : null;
+
+                    body.userId = userId;
+                    project.tasks.push(body);
+
+                    let allTasks = { tasks: project.tasks };
+                    return allTasks;
+                }),
+                switchMap(tasks => this._http.patch<Project>(url, tasks))
             ))
         );
     }

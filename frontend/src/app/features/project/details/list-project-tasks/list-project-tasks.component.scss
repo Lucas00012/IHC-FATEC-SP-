@@ -1,28 +1,12 @@
 @import "src/app/shared/material/theme.scss";
 
+header {
+    margin-bottom: 1em;
+}
+
 .task-container {
     display: flex;
     justify-content: center;
     gap: 1em;
     align-items: center;
-}
-
-header {
-    margin-bottom: 1em;
-}
-
-.task-item {
-    width: 250px;
-    height: 320px;
-
-    h2 {
-        background-color: $primary-color;
-        color: white;
-        text-align: center;
-    }
-
-    textarea {
-        resize: none;
-        height: 80px;
-    }
 }

@@ -1,0 +1,39 @@
+<mat-card class="task-item" [formGroup]="form">
+    <h2>
+        {{task.title}}
+        <mat-icon (click)="handleEdit(true)">edit</mat-icon>
+    </h2>
+    <mat-form-field class="maximize" appearance="outline" *ngIf="editing && isSpecial">
+        <mat-label>Título *</mat-label>
+        <input matInput formControlName="title">
+        <mat-error *ngIf="form.get('title')?.hasError('required')">O campo é obrigatório</mat-error>
+    </mat-form-field>
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Descrição</mat-label>
+        <textarea matInput formControlName="description" readonly="!editing || !isSpecial"></textarea>
+    </mat-form-field>
+    <mat-form-field class="maximize" appearance="outline" *ngIf="usersFiltered$ | async as users">
+        <mat-label>Responsável</mat-label>
+        <input matInput formControlName="userId" [matAutocomplete]="auto" readonly="!editing || !isSpecial">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this, users)">
+            <mat-option *ngFor="let user of users" [value]="user.id">
+                {{user.name}} #{{user.id}} <span *ngIf="(user$ | async)?.id == user.id">(Você)</span>
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Status</mat-label>
+        <input matInput formControlName="status" readonly *ngIf="!editing">
+        <mat-select formControlName="status" *ngIf="editing">
+            <mat-option *ngFor="let taskOption of taskStatusOptions" [value]="taskOption">
+                {{ taskOption }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <button mat-raised-button color="primary" class="font-white">
+        Salvar
+    </button>
+    <button mat-button (click)="handleEdit(false)">
+        Cancelar
+    </button>
+</mat-card>

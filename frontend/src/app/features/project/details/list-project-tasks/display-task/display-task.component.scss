@@ -1,0 +1,17 @@
+@import "src/app/shared/material/theme.scss";
+
+.task-item {
+    width: 250px;
+    height: 350px;
+
+    h2 {
+        background-color: $primary-color;
+        color: white;
+        text-align: center;
+    }
+
+    textarea {
+        resize: none;
+        height: 80px;
+    }
+}

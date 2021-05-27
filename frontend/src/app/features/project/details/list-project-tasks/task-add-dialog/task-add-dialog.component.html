@@ -1,32 +1,29 @@
-<ng-container *ngIf="users$ | async as users; else loading">
-    <h1 mat-dialog-title>Criar tarefa</h1>
-    <div mat-dialog-content [formGroup]="form" *ngIf="user$ | async as loggedUser">
-        <mat-form-field class="maximize" appearance="outline">
-            <mat-label>Título *</mat-label>
-            <input matInput formControlName="title">
-            <mat-error *ngIf="form.get('title')?.hasError('required')">O campo é obrigatório</mat-error>
-        </mat-form-field>
-        <mat-form-field class="maximize" appearance="outline">
-            <mat-label>Responsável</mat-label>
-            <input matInput formControlName="userId" [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this, users)">
-                <mat-option *ngFor="let user of usersFiltered$ | async" [value]="user.id">
-                {{user.name}} #{{user.id}} <span *ngIf="loggedUser.id == user.id">(Você)</span>
-                </mat-option>
-            </mat-autocomplete>
-            <mat-error *ngIf="form.get('userId')?.hasError('required')">O campo é obrigatório</mat-error>
-        </mat-form-field>
-        <mat-form-field class="maximize" appearance="outline">
-            <mat-label>Descrição *</mat-label>
-            <textarea matInput formControlName="description"></textarea>
-            <mat-error *ngIf="form.get('description')?.hasError('required')">O campo é obrigatório</mat-error>
-        </mat-form-field>
-    </div>
-    <div mat-dialog-actions>
-      <button mat-raised-button (click)="onSave(users)" [disabled]="form.invalid">Salvar</button>
-      <button mat-button mat-dialog-close>Cancelar</button>
-    </div>
-</ng-container>
+<h1 mat-dialog-title>Criar tarefa</h1>
+<div mat-dialog-content [formGroup]="form">
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Título *</mat-label>
+        <input matInput formControlName="title">
+        <mat-error *ngIf="form.get('title')?.hasError('required')">O campo é obrigatório</mat-error>
+    </mat-form-field>
+    <mat-form-field class="maximize" appearance="outline" *ngIf="usersFiltered$ | async as users">
+        <mat-label>Responsável</mat-label>
+        <input matInput formControlName="userId" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this, users)">
+            <mat-option *ngFor="let user of users" [value]="user.id">
+                {{user.name}} #{{user.id}} <span *ngIf="(user$ | async)?.id == user.id">(Você)</span>
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Descrição *</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+        <mat-error *ngIf="form.get('description')?.hasError('required')">O campo é obrigatório</mat-error>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button (click)="onSave()" [disabled]="form.invalid">Salvar</button>
+    <button mat-button mat-dialog-close>Cancelar</button>
+</div>
 
 <ng-template #loading>
     <div class="loading-spinner">

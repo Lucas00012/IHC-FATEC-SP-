@@ -32,5 +32,5 @@ export function insensitiveCompare(a: string, b: string) {
 }
 
 export function insensitiveContains(contain: string, contained: string) {
-    return contain.toLowerCase().includes(contained.toLowerCase());
+    return contain?.toLowerCase().includes(contained?.toLowerCase());
 }

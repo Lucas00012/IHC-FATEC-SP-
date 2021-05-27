@@ -9,6 +9,7 @@ import { ProjectFeatureService } from "./tools/project-feature.service";
 import { ProjectGuard } from "./tools/project.guard";
 import { TaskAddDialogComponent } from './details/list-project-tasks/task-add-dialog/task-add-dialog.component';
 import { ListProjectTasksComponent } from "./details/list-project-tasks/list-project-tasks.component";
+import { DisplayTaskComponent } from './details/list-project-tasks/display-task/display-task.component';
 
 @NgModule({
     declarations: [
@@ -17,7 +18,8 @@ import { ListProjectTasksComponent } from "./details/list-project-tasks/list-pro
         RegisterComponent,
         DetailsComponent,
         ListProjectTasksComponent,
-        TaskAddDialogComponent
+        TaskAddDialogComponent,
+        DisplayTaskComponent
     ],
     imports: [
         SharedModule,

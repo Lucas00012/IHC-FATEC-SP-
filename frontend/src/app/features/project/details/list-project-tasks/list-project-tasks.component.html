@@ -1,5 +1,5 @@
 <header>
-    <button mat-raised-button class="font-white" color="primary" *ngIf="canAddTasks$ | async" (click)="addTask()">
+    <button mat-raised-button class="font-white" color="primary" *ngIf="isSpecial$ | async" (click)="addTask()">
         <mat-icon>add</mat-icon>
         Criar
     </button>
@@ -7,17 +7,15 @@
 
 <p *ngIf="!project.tasks.length">O projeto ainda não possui tarefas</p>
 <div class="task-container">
-    <mat-card *ngFor="let task of project.tasks" class="task-item">
-        <div>
-            <h2>{{task.title}}</h2>
-            <mat-form-field class="maximize" appearance="outline">
-                <mat-label>Descrição</mat-label>
-                <textarea matInput value="{{task.description}}" readonly></textarea>
-            </mat-form-field>
-            <mat-form-field class="maximize" appearance="outline">
-                <mat-label>Status</mat-label>
-                <input matInput value={{task.status}} readonly>
-            </mat-form-field>
-        </div>
-    </mat-card>
+    <ng-container *ngFor="let task of project.tasks">
+        <app-display-task 
+            [task]="task" [project]="project" [isSpecial]="(isSpecial$ | async) ?? false">
+        </app-display-task>
+    </ng-container>
 </div>
+
+<ng-template #loading>
+    <div class="loading-spinner">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>
