@@ -1,0 +1,21 @@
+<header>
+    <button mat-raised-button class="font-white" color="primary" *ngIf="isSpecial$ | async" (click)="addTask()">
+        <mat-icon>add</mat-icon>
+        Criar
+    </button>
+</header>
+
+<p *ngIf="!project.tasks.length">O projeto ainda não possui tarefas</p>
+<div class="task-container">
+    <ng-container *ngFor="let task of project.tasks; let i = index">
+        <app-display-task (update)="updateTask($event, i)" (delete)="deleteTask(i)"
+            [task]="task" [project]="project" [isSpecial]="(isSpecial$ | async) ?? false">
+        </app-display-task>
+    </ng-container>
+</div>
+
+<ng-template #loading>
+    <div class="loading-spinner">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>

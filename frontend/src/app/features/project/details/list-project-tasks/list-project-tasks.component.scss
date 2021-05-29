@@ -1,0 +1,14 @@
+@import "src/app/shared/material/theme.scss";
+
+header {
+    margin-bottom: 1em;
+}
+
+.task-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1em;
+    align-items: center;
+    padding-bottom: 2em;
+}

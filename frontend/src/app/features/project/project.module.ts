@@ -7,13 +7,19 @@ import { ProjectComponent } from "./project.component";
 import { RegisterComponent } from './register/register.component';
 import { ProjectFeatureService } from "./tools/project-feature.service";
 import { ProjectGuard } from "./tools/project.guard";
+import { TaskAddDialogComponent } from './details/list-project-tasks/task-add-dialog/task-add-dialog.component';
+import { ListProjectTasksComponent } from "./details/list-project-tasks/list-project-tasks.component";
+import { DisplayTaskComponent } from './details/list-project-tasks/display-task/display-task.component';
 
 @NgModule({
     declarations: [
         ProjectComponent,
         ListComponent,
         RegisterComponent,
-        DetailsComponent
+        DetailsComponent,
+        ListProjectTasksComponent,
+        TaskAddDialogComponent,
+        DisplayTaskComponent
     ],
     imports: [
         SharedModule,

@@ -16,7 +16,8 @@
       "name": "Kleber Matos",
       "email": "kleber@gmail.com",
       "password": "@123123",
-      "id": 3
+      "id": 3,
+      "tasks": []
     }
   ],
   "projects": [
@@ -37,7 +38,21 @@
         }
       ],
       "creation": 1621631911220,
-      "id": 1
+      "id": 1,
+      "tasks": [
+        {
+          "title": "Criar homepage",
+          "description": "Criar a página principal do site de acordo com as especificações definidas no escopo.",
+          "status": "Em andamento",
+          "userId": 3
+        },
+        {
+          "title": "Criar tela de login",
+          "description": "- validar senha\n- validar email",
+          "status": "Em andamento",
+          "userId": 2
+        }
+      ]
     },
     {
       "name": "abc",
@@ -56,7 +71,8 @@
         }
       ],
       "creation": 1621701044527,
-      "id": 2
+      "id": 2,
+      "tasks": []
     },
     {
       "name": "construção de erp",
@@ -71,7 +87,8 @@
         }
       ],
       "creation": 1621727518786,
-      "id": 3
+      "id": 3,
+      "tasks": []
     },
     {
       "name": "efg",
@@ -90,7 +107,8 @@
         }
       ],
       "creation": 1621863105063,
-      "id": 4
+      "id": 4,
+      "tasks": []
     }
   ]
 }

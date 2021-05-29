@@ -31,7 +31,12 @@ export class RegisterComponent {
 
   form = this._fb.group({
     name: ["", [Validators.required]],
-    allocations: this._fb.array([])
+    allocations: this._fb.array([]),
+    tasks: [
+      [
+        
+      ]
+    ]
   });
 
   get allocations() {
@@ -43,9 +48,7 @@ export class RegisterComponent {
   responsabilityOptions = Object.values(Responsability)
     .filter((responsability) => responsability !== Responsability.ScrumMaster);
 
-  autocomplete$ = fromForm(this.autocomplete).pipe(
-    map(autocomplete => typeof autocomplete === "string" ? autocomplete : autocomplete.name)
-  );
+  autocomplete$ = fromForm(this.autocomplete);
 
   user$ = this._authService.user$;
 
@@ -53,7 +56,7 @@ export class RegisterComponent {
     shareReplay(1)
   );
 
-  userOptions$ = combineLatest([this.autocomplete$, this.users$]).pipe(
+  usersFiltered$ = combineLatest([this.autocomplete$, this.users$]).pipe(
     map(([autocomplete, users]) => this.filter(users, autocomplete))
   );
 
@@ -82,10 +85,11 @@ export class RegisterComponent {
     this.allocations.removeAt(index);
   }
 
-  filter(users: User[], autocomplete: string) {
+  filter(users: User[], userInput: any) {
+    userInput = typeof userInput === "string" ? userInput : userInput.name;
     return users.filter(user =>
-      insensitiveContains(user.name, autocomplete) ||
-      user.id?.toString().includes(autocomplete)
+      insensitiveContains(user.name, userInput) ||
+      user.id?.toString().includes(userInput)
     );
   }
 

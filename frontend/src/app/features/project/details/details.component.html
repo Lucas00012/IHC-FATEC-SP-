@@ -1,3 +1,10 @@
-<h1 *ngIf="project$ | async as project">
-    {{ project | json }}
-</h1>
+<ng-container *ngIf="project$ | async as project">
+    <mat-tab-group [selectedIndex]="activeTab" (selectedTabChange)="handleMatTabChange($event)">
+        <mat-tab label="Tarefas">
+          <app-list-project-tasks [project]="project"></app-list-project-tasks>
+        </mat-tab>
+        <mat-tab label="Alocações"> Alocações </mat-tab>
+        <mat-tab label="Reuniões"> Reuniões </mat-tab>
+        <mat-tab label="Sprints"> Sprints </mat-tab>
+      </mat-tab-group>
+</ng-container>

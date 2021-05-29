@@ -1,0 +1,58 @@
+<mat-card class="task-item" [formGroup]="form">
+    <h2 class="font-upper">
+        {{task.title}}
+        <mat-icon (click)="handleEdit(true)" matTooltip="Editar"
+            *ngIf="!editing && (isTaskAssignedOrSpecial$ | async)">
+            edit
+        </mat-icon>
+    </h2>
+
+    <mat-form-field class="maximize" appearance="outline" *ngIf="editing">
+        <mat-label>Título *</mat-label>
+        <input matInput formControlName="title" [readonly]="!isSpecial" maxlength="20">
+        <mat-error *ngIf="form.get('title')?.hasError('required')">O campo é obrigatório</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Descrição *</mat-label>
+        <textarea matInput formControlName="description" [readonly]="!editing || !isSpecial"></textarea>
+        <mat-error *ngIf="form.get('description')?.hasError('required')">O campo é obrigatório</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="maximize" appearance="outline" *ngIf="usersFiltered$ | async as users">
+        <mat-label>Responsável</mat-label>
+        <input matInput formControlName="userId" [matAutocomplete]="auto" [readonly]="!editing || !isSpecial">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this, users)">
+            <mat-option *ngFor="let user of users" [value]="user.id">
+                {{user.name}} #{{user.id}} <span *ngIf="(user$ | async)?.id == user.id">(Você)</span>
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status" *ngIf="editing && (isTaskAssignedOrSpecial$ | async); else notCanEditStatus">
+            <mat-option *ngFor="let taskOption of taskStatusOptions" [value]="taskOption">
+                {{ taskOption }}
+            </mat-option>
+        </mat-select>
+        <ng-template #notCanEditStatus>
+            <input matInput formControlName="status" readonly>
+        </ng-template>
+    </mat-form-field>
+
+    <div *ngIf="editing" class="button-container split">
+        <div>
+            <button mat-raised-button color="primary" class="font-white" 
+                [disabled]="form.invalid" (click)="onUpdate()">
+                Salvar
+            </button>
+            <button mat-raised-button color="warn" (click)="onDelete()" *ngIf="isSpecial">
+                Excluir
+            </button>
+        </div>
+        <button mat-button (click)="handleEdit(false)">
+            Cancelar
+        </button>
+    </div>
+</mat-card>

@@ -17,7 +17,7 @@
             <mat-label>Nome ou código (usuário)</mat-label>
             <input matInput [formControl]="autocomplete" [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="userOnChange($event)">
-                <mat-option *ngFor="let user of userOptions$ | async" [value]="user">
+                <mat-option *ngFor="let user of usersFiltered$ | async" [value]="user">
                 {{user.name}} #{{user.id}}
                 </mat-option>
             </mat-autocomplete>
