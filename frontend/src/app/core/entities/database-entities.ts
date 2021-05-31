@@ -21,6 +21,7 @@ export interface Allocation {
 }
 
 export interface Task {
+    id?: string,
     userId: number | null,
     description: string,
     title: string,

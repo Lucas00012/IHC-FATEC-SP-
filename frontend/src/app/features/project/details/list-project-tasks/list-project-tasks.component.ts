@@ -8,7 +8,7 @@ import { Project, Task } from "@core/entities/database-entities";
 import { TaskStatus } from "@core/entities/value-entities";
 import { ProjectFeatureService } from "@features/project/tools/project-feature.service";
 import { PrintSnackbarService } from "@shared/print-snackbar/print-snackbar.service";
-import { fromForm } from "@shared/utils/utils";
+import { fromForm, insensitiveContains } from "@shared/utils/utils";
 import { combineLatest } from "rxjs";
 import { catchError, filter, map, switchMap, tap } from "rxjs/operators";
 import { TaskAddDialogComponent } from "./task-add-dialog/task-add-dialog.component";
@@ -30,6 +30,7 @@ export class ListProjectTasksComponent {
 
     form = this._fb.group({
         status: ["Todas"],
+        title: [""],
         onlyAssigned: [false]
     });
 
@@ -53,6 +54,8 @@ export class ListProjectTasksComponent {
 
             if (form.onlyAssigned)
                 tasks = tasks.filter(t => t.userId == allocation?.userId);
+
+            tasks = tasks.filter(t => insensitiveContains(t.title, form.title));
 
             return tasks;
         })
@@ -78,16 +81,16 @@ export class ListProjectTasksComponent {
         ).subscribe();
     }
 
-    updateTask(body: any, index: number) {
-        this._projectsService.updateTask(this.projectId, body, index).pipe(
+    updateTask(body: any, taskId: string | undefined) {
+        this._projectsService.updateTask(this.projectId, body, taskId).pipe(
             tap(_ => this._printService.printSuccess("Tarefa atualizada com sucesso!")),
             tap(_ => this._projectFeatureService.notifyProjectChanges()),
             catchError(err => this._printService.printError("Erro ao atualizar a tarefa", err))
         ).subscribe();
     }
 
-    deleteTask(index: number) {
-        this._projectsService.removeTask(this.projectId, index).pipe(
+    deleteTask(taskId: string | undefined) {
+        this._projectsService.removeTask(this.projectId, taskId).pipe(
             tap(_ => this._printService.printSuccess("Tarefa excluida com sucesso!")),
             tap(_ => this._projectFeatureService.notifyProjectChanges()),
             catchError(err => this._printService.printError("Erro ao excluir a tarefa", err))

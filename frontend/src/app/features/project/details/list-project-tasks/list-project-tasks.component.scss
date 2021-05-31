@@ -1,18 +1,28 @@
 @import "src/app/shared/material/theme.scss";
 
-header {
+.header {
     margin-bottom: 1em;
 
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
 
     button {
-        align-self: flex-start;
+        align-self: center;
     }
 
     div > * {
         margin: 0.5em;
+    }
+
+    ::ng-deep .mat-form-field-wrapper{
+        margin: 0 !important;
+        padding: 0;
+    }
+
+    mat-form-field {
+        width: 250px;
     }
 }
 

@@ -41,10 +41,18 @@
       "id": 1,
       "tasks": [
         {
-          "title": "teste",
-          "description": "teste",
+          "title": "Criar homepage",
+          "description": "Respeitar os requisitos definidos pelo cliente",
+          "status": "Em andamento",
+          "userId": 2,
+          "id": "42224937-2efb-48c3-a128-08d1375a8b90"
+        },
+        {
+          "title": "abc",
+          "description": "abc",
           "status": "Concluída",
-          "userId": 3
+          "userId": 3,
+          "id": "52d9c85a-18bc-47e3-b4bb-433e811c8784"
         }
       ]
     },

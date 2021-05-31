@@ -7,6 +7,7 @@ import { buildQuery } from "@shared/utils/utils";
 import { combineLatest, Observable, of, throwError } from "rxjs";
 import { catchError, map, switchMap, take } from "rxjs/operators";
 import { API_BASE_URL } from "./api.module";
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
     providedIn: "root"
@@ -86,16 +87,15 @@ export class ProjectsService {
         return this._authService.user$.pipe(
             take(1),
             switchMap(user => this.get(id).pipe(
-                switchMap(project => !project.allocations.some(a => a.userId == user?.id 
-                        && (a.responsability == Responsability.ScrumMaster || a?.responsability === Responsability.ProductOwner))
+                switchMap(project => !project.allocations.some(a => a.userId == user?.id && (a.responsability == Responsability.ScrumMaster || a?.responsability === Responsability.ProductOwner))
                     ? throwError("O projeto pertence a outro usuário")
                     : of(project)
                 ),
                 map(project => {
                     let userExists = project.allocations?.some(u => u.userId == body.userId);
-                    let userId = userExists ? body.userId : null;
 
-                    body.userId = userId;
+                    body.userId = userExists ? body.userId : null;
+                    body.id = uuidv4();
                     project.tasks.push(body);
 
                     let allTasks = { tasks: project.tasks };
@@ -106,29 +106,26 @@ export class ProjectsService {
         );
     }
 
-    removeTask(id: number | undefined | null, index: number) {
+    removeTask(id: number | undefined | null, taskId: string | undefined) {
         let url = `${this._baseUrl}/projects/${id}`;
 
         return this._authService.user$.pipe(
             take(1),
             switchMap(user => this.get(id).pipe(
-                switchMap(project => !project.allocations.some(a => a.userId == user?.id 
-                        && (a.responsability == Responsability.ScrumMaster || a?.responsability === Responsability.ProductOwner))
+                switchMap(project => !project.allocations.some(a => a.userId == user?.id && (a.responsability == Responsability.ScrumMaster || a?.responsability === Responsability.ProductOwner))
                     ? throwError("Você não pode excluir tarefas")
                     : of(project)
                 ),
                 map(project => {
-                    project.tasks.splice(index, 1);
-
-                    let allTasks = { tasks: project.tasks };
-                    return allTasks;
+                    let tasks = project.tasks.filter(t => t.id != taskId);
+                    return { tasks };
                 }),
                 switchMap(tasks => this._http.patch<Project>(url, tasks))
             ))
         );
     }
 
-    updateTask(id: number | undefined | null, body: Task, index: number) {
+    updateTask(id: number | undefined | null, body: Task, taskId: string | undefined) {
         let url = `${this._baseUrl}/projects/${id}`;
 
         return this._authService.user$.pipe(
@@ -139,17 +136,22 @@ export class ProjectsService {
                     : of(project)
                 ),
                 map(project => {
+                    let task = <Task>project.tasks.find(t => t.id == taskId);
                     let userExists = project.allocations?.some(u => u.userId == body.userId);
-                    let userId = userExists ? body.userId : null;
 
-                    body.userId = userId;
+                    body.userId = userExists ? body.userId : null;
 
                     let allocation = project.allocations?.find(u => u.userId == user?.id);
 
-                    if (allocation?.responsability === Responsability.ScrumMaster || allocation?.responsability === Responsability.ProductOwner)
-                        project.tasks[index] = body;
-                    else 
-                        project.tasks[index].status = body.status;
+                    if (allocation?.responsability === Responsability.ScrumMaster || allocation?.responsability === Responsability.ProductOwner) {
+                        task.title = body.title;
+                        task.description = body.description;
+                        task.userId = body.userId;
+                        task.status = body.status;
+                    }
+                    else {
+                        task.status = body.status;
+                    }
 
                     let allTasks = { tasks: project.tasks };
                     return allTasks;
