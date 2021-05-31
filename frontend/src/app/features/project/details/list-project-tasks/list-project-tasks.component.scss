@@ -12,6 +12,11 @@
         align-self: center;
     }
 
+    div {
+        display: flex;
+        align-items: center;
+    }
+
     div > * {
         margin: 0.5em;
     }
