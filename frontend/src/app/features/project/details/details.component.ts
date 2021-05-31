@@ -30,7 +30,7 @@ export class DetailsComponent implements AfterContentInit {
         'sprints',
     ];
 
-    project$ = this._projectFeatureService.currentProject$;
+    projectId$ = this._projectFeatureService.currentProjectId$;
 
     handleMatTabChange(event: MatTabChangeEvent) {
         let tabParam = this.tabOptions[event.index];

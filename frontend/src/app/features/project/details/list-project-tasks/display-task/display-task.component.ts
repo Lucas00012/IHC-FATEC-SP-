@@ -30,7 +30,6 @@ export class DisplayTaskComponent implements AfterViewInit {
   }
 
   @Input() task!: Task;
-  @Input() project!: Project;
   @Input() isSpecial!: boolean;
 
   @Output() update = new EventEmitter<Task>();

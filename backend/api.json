@@ -47,10 +47,10 @@
           "userId": 3
         },
         {
-          "title": "Criar tela de login",
-          "description": "- validar senha\n- validar email",
+          "title": "Teste",
+          "description": "teste",
           "status": "Em andamento",
-          "userId": 2
+          "userId": 1
         }
       ]
     },

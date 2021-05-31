@@ -1,11 +1,14 @@
 import { Component, Input } from "@angular/core";
+import { FormBuilder } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { ProjectsService } from "@core/api/projects.api";
 import { UsersService } from "@core/api/users.api";
 import { AuthService } from "@core/auth/auth.service";
 import { Project, Task } from "@core/entities/database-entities";
+import { TaskStatus } from "@core/entities/value-entities";
 import { ProjectFeatureService } from "@features/project/tools/project-feature.service";
 import { PrintSnackbarService } from "@shared/print-snackbar/print-snackbar.service";
+import { fromForm } from "@shared/utils/utils";
 import { combineLatest } from "rxjs";
 import { catchError, filter, map, switchMap, tap } from "rxjs/operators";
 import { TaskAddDialogComponent } from "./task-add-dialog/task-add-dialog.component";
@@ -21,13 +24,39 @@ export class ListProjectTasksComponent {
         private _dialog: MatDialog,
         private _projectsService: ProjectsService,
         private _printService: PrintSnackbarService,
-        private _projectFeatureService: ProjectFeatureService
+        private _projectFeatureService: ProjectFeatureService,
+        private _fb: FormBuilder
     ) { }
 
-    @Input() project!: Project;
+    form = this._fb.group({
+        status: ["Todas"],
+        onlyAssigned: [false]
+    });
 
+    @Input() projectId!: number | null;
+
+    taskStatusOptions = ["Todas", ...Object.values(TaskStatus)];
+
+    allocation$ = this._projectFeatureService.currentAllocation$;
     isProductOwner$ = this._projectFeatureService.isProductOwner$;
     isScrumMaster$ = this._projectFeatureService.isScrumMaster$;
+    project$ = this._projectFeatureService.currentProject$;
+
+    form$ = fromForm(this.form);
+
+    tasks$ = combineLatest([this.form$, this.project$, this.allocation$]).pipe(
+        map(([form, project, allocation]) => {
+            let tasks = project?.tasks || [];
+
+            if (form.status != "Todas")
+                tasks = tasks.filter(t => t.status == form.status);
+
+            if (form.onlyAssigned)
+                tasks = tasks.filter(t => t.userId == allocation?.userId);
+
+            return tasks;
+        })
+    )
 
     isSpecial$ = combineLatest([
         this.isProductOwner$, 
@@ -42,7 +71,7 @@ export class ListProjectTasksComponent {
             height: "450px"
         }).afterClosed().pipe(
             filter(body => !!body),
-            switchMap(body => this._projectsService.addTask(this.project.id, body)),
+            switchMap(body => this._projectsService.addTask(this.projectId, body)),
             tap(_ => this._printService.printSuccess("Tarefa cadastrada com sucesso!")),
             tap(_ => this._projectFeatureService.notifyProjectChanges()),
             catchError(err => this._printService.printError("Erro ao cadastrar a tarefa", err))
@@ -50,7 +79,7 @@ export class ListProjectTasksComponent {
     }
 
     updateTask(body: any, index: number) {
-        this._projectsService.updateTask(this.project.id, body, index).pipe(
+        this._projectsService.updateTask(this.projectId, body, index).pipe(
             tap(_ => this._printService.printSuccess("Tarefa atualizada com sucesso!")),
             tap(_ => this._projectFeatureService.notifyProjectChanges()),
             catchError(err => this._printService.printError("Erro ao atualizar a tarefa", err))
@@ -58,7 +87,7 @@ export class ListProjectTasksComponent {
     }
 
     deleteTask(index: number) {
-        this._projectsService.removeTask(this.project.id, index).pipe(
+        this._projectsService.removeTask(this.projectId, index).pipe(
             tap(_ => this._printService.printSuccess("Tarefa excluida com sucesso!")),
             tap(_ => this._projectFeatureService.notifyProjectChanges()),
             catchError(err => this._printService.printError("Erro ao excluir a tarefa", err))
