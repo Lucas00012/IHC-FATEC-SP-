@@ -31,11 +31,11 @@ export class ListComponent {
     projects$ = combineLatest([this.user$, this.filter$]).pipe(
         tap(_ => this.fetching = true),
         debounceTime(500),
-        switchMap(([user, filter]) => this._projectsService.getAll(user?.id, filter).pipe(
+        switchMap(([user, filter]) => this._projectsService.getAll(user.id, filter).pipe(
             map(projects => projects.map(project => 
                 ({ 
                     ...project, 
-                    currentFunction: project.allocations.find(a => a.userId == user?.id)?.responsability 
+                    currentFunction: project.allocations.find(a => a.userId == user.id).responsability 
                 })
             ))
         )),

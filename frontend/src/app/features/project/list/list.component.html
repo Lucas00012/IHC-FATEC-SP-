@@ -1,6 +1,6 @@
 <h1>MEUS PROJETOS</h1>
 
-<div [formGroup]="form" class="container-fields">
+<mat-card class="header container-fields" [formGroup]="form">
     <mat-form-field appearance="outline">
         <mat-label>Pesquisar</mat-label>
         <input matInput formControlName="name_like">
@@ -8,7 +8,7 @@
             <mat-icon>close</mat-icon>
         </button>
     </mat-form-field>
-</div>
+</mat-card>
 
 <ng-container *ngIf="fetching">
     <div class="loading-spinner">

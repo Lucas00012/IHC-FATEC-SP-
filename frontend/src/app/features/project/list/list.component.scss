@@ -1,5 +1,19 @@
 @import "src/app/shared/material/theme.scss";
 
+.header {
+    margin-bottom: 1em;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    ::ng-deep .mat-form-field-wrapper{
+        margin: 0 !important;
+        padding: 0;
+    }
+}
+
 .project-item {
     margin-bottom: 0.5em;
 }
