@@ -1,9 +1,20 @@
 @import "src/app/shared/material/theme.scss";
 
+::-webkit-scrollbar {
+    width: 7px;
+    overflow-y: scroll;
+    background: #cecece;
+}
+
+::-webkit-scrollbar-thumb {
+    background: $primary-color;
+    border-radius: 10px;
+}
+
 .task-item {
     width: 320px;
     height: 425px;
-    overflow-y: auto;
+    overflow-y: scroll;
 
     h2 {
         display: flex;

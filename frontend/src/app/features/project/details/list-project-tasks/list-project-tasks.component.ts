@@ -47,13 +47,13 @@ export class ListProjectTasksComponent {
 
     tasks$ = combineLatest([this.form$, this.project$, this.allocation$]).pipe(
         map(([form, project, allocation]) => {
-            let tasks = project?.tasks || [];
+            let tasks = project.tasks;
 
             if (form.status != "Todas")
                 tasks = tasks.filter(t => t.status == form.status);
 
             if (form.onlyAssigned)
-                tasks = tasks.filter(t => t.userId == allocation?.userId);
+                tasks = tasks.filter(t => t.userId == allocation.userId);
 
             tasks = tasks.filter(t => insensitiveContains(t.title, form.title));
 

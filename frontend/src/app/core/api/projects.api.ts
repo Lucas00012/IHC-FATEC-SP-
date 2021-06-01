@@ -37,7 +37,7 @@ export class ProjectsService {
         )
     }
 
-    add(project: Project, userId?: number) {
+    add(project: Project, userId: number | undefined | null) {
         if(project.allocations.some(a => a.responsability == Responsability.ScrumMaster))
             throwError("O projeto só pode ter 1 Scrum Master");
 
