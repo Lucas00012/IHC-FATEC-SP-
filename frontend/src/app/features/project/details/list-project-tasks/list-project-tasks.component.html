@@ -27,7 +27,7 @@
     <p *ngIf="!tasks.length">O projeto ainda não possui tarefas</p>
     <div class="task-container">
         <ng-container *ngFor="let task of tasks">
-            <app-display-task (update)="updateTask($event, task?.id)" (delete)="deleteTask(task?.id)"
+            <app-display-task (update)="updateTask($event, task.id)" (delete)="deleteTask(task.id)"
                 [task]="task" [isSpecial]="(isSpecial$ | async) ?? false">
             </app-display-task>
         </ng-container>

@@ -106,6 +106,27 @@ export class ProjectsService {
         );
     }
 
+    removeAllocation(id: number | undefined | null, userId: number) {
+        let url = `${this._baseUrl}/projects/${id}`;
+
+        return this._authService.user$.pipe(
+            take(1),
+            switchMap(user => this.get(id).pipe(
+                switchMap(project => !project.allocations.some(a => a.userId == user.id && a.responsability == Responsability.ScrumMaster)
+                    ? throwError("Você não pode excluir alocações")
+                    : of(project)
+                ),
+                map(project => {
+                    let allocations = project.allocations.filter(t => t.userId != userId);
+                    let tasks = project.tasks.map(t => t.userId == userId ? { ...t, userId: null } : t);
+                    console.log(allocations, tasks, userId);
+                    return { allocations, tasks };
+                }),
+                switchMap(obj => this._http.patch<Project>(url, obj))
+            ))
+        );
+    }
+
     removeTask(id: number | undefined | null, taskId: string | undefined) {
         let url = `${this._baseUrl}/projects/${id}`;
 

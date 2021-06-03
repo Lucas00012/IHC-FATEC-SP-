@@ -1,0 +1,28 @@
+table {
+    width: 100%;
+}
+
+header {
+    margin-bottom: 1em;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    button {
+        align-self: center;
+    }
+
+    ::ng-deep .mat-form-field-wrapper{
+        padding: 0;
+    }
+
+    mat-form-field {
+        flex: 1;
+    }
+
+    * {
+        margin: 0.2em !important;
+    }
+}

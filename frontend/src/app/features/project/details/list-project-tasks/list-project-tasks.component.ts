@@ -47,6 +47,8 @@ export class ListProjectTasksComponent {
 
     tasks$ = combineLatest([this.form$, this.project$, this.allocation$]).pipe(
         map(([form, project, allocation]) => {
+            if (!project) return [];
+
             let tasks = project.tasks;
 
             if (form.status != "Todas")
@@ -81,7 +83,7 @@ export class ListProjectTasksComponent {
         ).subscribe();
     }
 
-    updateTask(body: any, taskId: string | undefined) {
+    updateTask(body: any, taskId: string) {
         this._projectsService.updateTask(this.projectId, body, taskId).pipe(
             tap(_ => this._printService.printSuccess("Tarefa atualizada com sucesso!")),
             tap(_ => this._projectFeatureService.notifyProjectChanges()),
@@ -89,7 +91,7 @@ export class ListProjectTasksComponent {
         ).subscribe();
     }
 
-    deleteTask(taskId: string | undefined) {
+    deleteTask(taskId: string) {
         this._projectsService.removeTask(this.projectId, taskId).pipe(
             tap(_ => this._printService.printSuccess("Tarefa excluida com sucesso!")),
             tap(_ => this._projectFeatureService.notifyProjectChanges()),
