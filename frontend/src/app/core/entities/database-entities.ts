@@ -1,4 +1,4 @@
-import { Responsability, TaskStatus } from "./value-entities";
+import { Responsability, TaskStatus, TaskType } from "./value-entities";
 
 export interface User {
     id?: number,
@@ -27,7 +27,7 @@ export interface Task {
     title: string,
     status: TaskStatus,
     type: TaskType,
-    epicId: number | null,
+    epicId: string | null,
     storyPoints: number | null,
     minutesEstimated: number | null
 }

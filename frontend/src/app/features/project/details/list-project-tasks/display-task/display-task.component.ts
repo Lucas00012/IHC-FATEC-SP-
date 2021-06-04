@@ -71,7 +71,7 @@ export class DisplayTaskComponent implements AfterViewInit {
     map((project) => {
         if (!project) return [];
 
-        let tasks = project.tasks.filter(t => t.type.valueOf() === TaskType.Epic.valueOf() && t.id !== this.task.id);
+        let tasks = project.tasks.filter(t => t.type === TaskType.Epic && t.id !== this.task.id);
         return tasks;
     })
   );

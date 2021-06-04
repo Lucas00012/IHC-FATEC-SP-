@@ -34,9 +34,7 @@ export class AddAllocationDialogComponent {
 
   autocomplete$ = fromForm(this.autocomplete);
 
-  userOptions$ = this._usersService.getAllExceptCurrent().pipe(
-    shareReplay(1)
-  );
+  userOptions$ = this._usersService.getAllExceptCurrent();
 
   usersFiltered$ = combineLatest([this.autocomplete$, this.userOptions$]).pipe(
     map(([autocomplete, userOptions]) => this.filter(userOptions, autocomplete))

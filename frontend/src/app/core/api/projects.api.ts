@@ -182,7 +182,9 @@ export class ProjectsService {
                 ),
                 map(project => {
                     let task = <Task>project.tasks.find(t => t.id == taskId);
+
                     let userExists = project.allocations?.some(u => u.userId == body.userId);
+                    let epicExists = project.tasks?.some(t => t.id == body.epicId && t.type === TaskType.Epic);
 
                     body.userId = userExists ? body.userId : null;
 
@@ -198,8 +200,8 @@ export class ProjectsService {
                         task.storyPoints = body.storyPoints;
                         
                         // If not epic, update epic Id
-                        if(body.type.valueOf() !== TaskType.Epic.valueOf()){
-                            task.epicId = body.epicId;
+                        if(body.type !== TaskType.Epic){
+                            task.epicId = epicExists ? body.epicId : null;
                         }
                     }
                     else {
