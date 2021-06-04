@@ -10,6 +10,8 @@ import { ProjectGuard } from "./tools/project.guard";
 import { TaskAddDialogComponent } from './details/list-project-tasks/task-add-dialog/task-add-dialog.component';
 import { ListProjectTasksComponent } from "./details/list-project-tasks/list-project-tasks.component";
 import { DisplayTaskComponent } from './details/list-project-tasks/display-task/display-task.component';
+import { ListProjectAllocationsComponent } from './details/list-project-allocations/list-project-allocations.component';
+import { AddAllocationDialogComponent } from './details/list-project-allocations/add-allocation-dialog/add-allocation-dialog.component';
 
 @NgModule({
     declarations: [
@@ -19,7 +21,9 @@ import { DisplayTaskComponent } from './details/list-project-tasks/display-task/
         DetailsComponent,
         ListProjectTasksComponent,
         TaskAddDialogComponent,
-        DisplayTaskComponent
+        DisplayTaskComponent,
+        ListProjectAllocationsComponent,
+        AddAllocationDialogComponent
     ],
     imports: [
         SharedModule,

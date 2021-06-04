@@ -4,7 +4,7 @@
       "id": 1,
       "name": "Lucas Eduardo",
       "email": "lucas@gmail.com",
-      "password": "123123"
+      "password": "@123123"
     },
     {
       "name": "Joao Silva",
@@ -25,16 +25,16 @@
       "name": "projeto web",
       "allocations": [
         {
-          "userId": 2,
-          "responsability": "Funcionário"
-        },
-        {
           "userId": 3,
           "responsability": "Product Owner"
         },
         {
           "userId": 1,
           "responsability": "Scrum Master"
+        },
+        {
+          "userId": 2,
+          "responsability": "Funcionário"
         }
       ],
       "creation": 1621631911220,
@@ -42,9 +42,9 @@
       "tasks": [
         {
           "title": "Criar homepage",
-          "description": "Respeitar os requisitos definidos pelo cliente",
+          "description": "Respeitar os requisitos definidos pelo cliente.",
           "status": "Em andamento",
-          "userId": 2,
+          "userId": null,
           "id": "42224937-2efb-48c3-a128-08d1375a8b90"
         },
         {
