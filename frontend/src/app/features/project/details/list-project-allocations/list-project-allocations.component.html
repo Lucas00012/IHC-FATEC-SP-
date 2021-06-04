@@ -8,7 +8,8 @@
             </button>
         </mat-form-field>
         <ng-container *ngIf="allocation$ | async as allocation">
-            <button mat-raised-button color="primary" class="font-white" *ngIf="allocation.responsability == 'Scrum Master' ">
+            <button mat-raised-button color="primary" class="font-white" *ngIf="allocation.responsability == 'Scrum Master'" 
+                (click)="addAllocation()">
                 <mat-icon>add</mat-icon>
                 Adicionar
             </button>

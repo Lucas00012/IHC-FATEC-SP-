@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -11,7 +12,8 @@ import { ProjectFeatureService } from '@features/project/tools/project-feature.s
 import { PrintSnackbarService } from '@shared/print-snackbar/print-snackbar.service';
 import { fromForm } from '@shared/utils/utils';
 import { combineLatest, Subject } from 'rxjs';
-import { catchError, map, take, takeUntil, tap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { AddAllocationDialogComponent } from './add-allocation-dialog/add-allocation-dialog.component';
 
 @Component({
   selector: 'app-list-project-allocations',
@@ -25,7 +27,8 @@ export class ListProjectAllocationsComponent implements OnInit, OnDestroy {
     private _authService: AuthService,
     private _projectsService: ProjectsService,
     private _printService: PrintSnackbarService,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private _dialog: MatDialog,
   ) { }
 
   ngOnDestroy() {
@@ -72,6 +75,19 @@ export class ListProjectAllocationsComponent implements OnInit, OnDestroy {
       tap(_ => this._printService.printSuccess("Alocação excluída com sucesso!")),
       tap(_ => this._projectFeatureService.notifyProjectChanges()),
       catchError((err) => this._printService.printError("Não foi possível excluir a alocação", err))
+    ).subscribe();
+  }
+
+  addAllocation() {
+    this._dialog.open(AddAllocationDialogComponent, {
+      width: "400px",
+      height: "420px"
+    }).afterClosed().pipe(
+      filter((body) => !!body),
+      switchMap((body) => this._projectsService.addAllocation(this.projectId, body)),
+      tap(_ => this._printService.printSuccess("Usuário alocado com sucesso!")),
+      tap(_ => this._projectFeatureService.notifyProjectChanges()),
+      catchError((err) => this._printService.printError(err, err))
     ).subscribe();
   }
 

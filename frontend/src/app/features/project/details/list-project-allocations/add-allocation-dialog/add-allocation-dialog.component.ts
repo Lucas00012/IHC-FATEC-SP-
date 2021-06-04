@@ -6,7 +6,7 @@ import { User } from '@core/entities/database-entities';
 import { Responsability } from '@core/entities/value-entities';
 import { fromForm, insensitiveContains } from '@shared/utils/utils';
 import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-allocation-dialog',
@@ -18,21 +18,25 @@ export class AddAllocationDialogComponent {
   constructor(
     private _usersService: UsersService,
     private _dialogRef: MatDialogRef<AddAllocationDialogComponent>,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
   ) { }
 
   form = this._fb.group({
-    userId: [null, [Validators.required], [this.userValidator]],
+    user: [null, [Validators.required]],
     responsability: [Responsability.Employee, [Validators.required]]
   });
 
-  get autocomplete() {
-    return this.form.get("userId") as FormControl;
+  get user() {
+    return this.form.get("user") as FormControl;
   }
+
+  autocomplete = this._fb.control("");
 
   autocomplete$ = fromForm(this.autocomplete);
 
-  userOptions$ = this._usersService.getAllExceptCurrent();
+  userOptions$ = this._usersService.getAllExceptCurrent().pipe(
+    shareReplay(1)
+  );
 
   usersFiltered$ = combineLatest([this.autocomplete$, this.userOptions$]).pipe(
     map(([autocomplete, userOptions]) => this.filter(userOptions, autocomplete))
@@ -41,9 +45,14 @@ export class AddAllocationDialogComponent {
   responsabilityOptions = Object.values(Responsability)
     .filter((responsability) => responsability !== Responsability.ScrumMaster);
 
-  displayFn(users: User[], userInput: any) {
-    const user = users.find(user => user.id == userInput);
-    return user ? `${user.name} #${user.id}` : userInput;
+  displayFn(user: User) {
+    return user && user.name ? user.name : '';
+  }
+
+  userOnChange(event) {
+    const user = event.option.value;
+    this.user.patchValue(user);
+    this.autocomplete.setValue("");
   }
 
   filter(users: User[], userInput: string | number) {
@@ -60,12 +69,9 @@ export class AddAllocationDialogComponent {
   onSave() {
     if (this.form.invalid) return;
 
-    this._dialogRef.close(this.form.value);
-  }
+    let body = this.form.value;
+    body = { userId: body.user.id, responsability: body.responsability };
 
-  userValidator(control: AbstractControl): Observable<ValidationErrors | null> {
-    return this.userOptions$.pipe(
-      map((users) => users.some(u => u.id == control.value) ? null : { user: true })
-    );
+    this._dialogRef.close(body);
   }
 }

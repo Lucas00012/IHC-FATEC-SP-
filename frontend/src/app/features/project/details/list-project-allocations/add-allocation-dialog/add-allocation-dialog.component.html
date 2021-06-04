@@ -2,20 +2,25 @@
     <h1 mat-dialog-title>Alocar usuário</h1>
     <div mat-dialog-content [formGroup]="form">
         <mat-form-field class="maximize" appearance="outline">
-            <mat-label>Usuário</mat-label>
-            <input matInput formControlName="userId" [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this, users)">
-                <mat-option *ngFor="let user of users" [value]="user.id">
+            <mat-label>Selecione</mat-label>
+            <input matInput [formControl]="autocomplete" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="userOnChange($event)">
+                <mat-option *ngFor="let user of users" [value]="user">
                     {{user.name}} #{{user.id}}
                 </mat-option>
             </mat-autocomplete>
         </mat-form-field>
         <mat-form-field class="maximize" appearance="outline">
+            <mat-label>Responsabilidade</mat-label>
             <mat-select formControlName="responsability">
                 <mat-option *ngFor="let responsability of responsabilityOptions" [value]="responsability">
                     {{ responsability }}
                 </mat-option>
             </mat-select>
+        </mat-form-field>
+        <mat-form-field class="maximize" appearance="outline" *ngIf="user.value as user; else noUser">
+            <mat-label>Usuário</mat-label>
+            <input matInput value="{{ user.name }} #{{ user.id }}" readonly>
         </mat-form-field>
     </div>
     <div mat-dialog-actions>
@@ -31,4 +36,8 @@
     <div class="loading-spinner">
         <mat-spinner></mat-spinner>
     </div>
+</ng-template>
+
+<ng-template #noUser>
+    <p>Você ainda não selecionou um usuário</p>
 </ng-template>

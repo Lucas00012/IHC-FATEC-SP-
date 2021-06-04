@@ -119,8 +119,32 @@ export class ProjectsService {
                 map(project => {
                     let allocations = project.allocations.filter(t => t.userId != userId);
                     let tasks = project.tasks.map(t => t.userId == userId ? { ...t, userId: null } : t);
-                    console.log(allocations, tasks, userId);
+
                     return { allocations, tasks };
+                }),
+                switchMap(obj => this._http.patch<Project>(url, obj))
+            ))
+        );
+    }
+
+    addAllocation(id: number | undefined | null, body: Allocation) {
+        let url = `${this._baseUrl}/projects/${id}`;
+
+        return this._authService.user$.pipe(
+            take(1),
+            switchMap(user => this.get(id).pipe(
+                switchMap(project => !project.allocations.some(a => a.userId == user.id && a.responsability == Responsability.ScrumMaster)
+                    ? throwError("Você não pode adicionar alocação")
+                    : of(project)
+                ),
+                switchMap(project => project.allocations.some(a => a.userId == body.userId)
+                    ? throwError("O usuário já está alocado no projeto")
+                    : of(project)
+                ),
+                map(project => {
+                    project.allocations.push(body);
+
+                    return { allocations: project.allocations };
                 }),
                 switchMap(obj => this._http.patch<Project>(url, obj))
             ))
