@@ -25,6 +25,8 @@ export class AutocompleteUsersComponent extends NestedForm {
 
   @Input() users!: User[];
 
+  @Input() readonly = false;
+
   @Output() selected = new EventEmitter<User>();
 
   form = this._fb.control(null);

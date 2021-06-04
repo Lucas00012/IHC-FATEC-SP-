@@ -20,7 +20,7 @@
     </mat-form-field>
 
     <app-autocomplete-users *ngIf="userOptions$ | async as users" formControlName="userId"
-        [users]="users" [mapValue]="mapUserValue" [displayFn]="displayFnUsers">
+        [users]="users" [mapValue]="mapUserValue" [displayFn]="displayFnUsers" [readonly]="!editing || !isSpecial">
         <span slot="mat-label">Usuário</span>
     </app-autocomplete-users>
 
