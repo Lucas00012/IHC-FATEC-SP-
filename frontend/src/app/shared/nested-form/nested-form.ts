@@ -12,7 +12,7 @@ export function valueAcessorProvider(type) {
 }
 
 @Component({
-
+    template: ""
 })
 export abstract class NestedForm implements ControlValueAccessor {
     protected abstract form: AbstractControl;

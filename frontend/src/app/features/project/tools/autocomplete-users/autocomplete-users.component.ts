@@ -25,7 +25,7 @@ export class AutocompleteUsersComponent extends NestedForm {
 
   @Output() selected = new EventEmitter<User>();
 
-  protected form = this._fb.control(null);
+  form = this._fb.control(null);
 
   autocomplete$ = fromForm(this.form);
 
@@ -45,7 +45,7 @@ export class AutocompleteUsersComponent extends NestedForm {
 
   userOnChange(event) {
     const user = event.option.value as User;
-    
+
     this.form.patchValue(user);
     this.selected.emit(user);
   }

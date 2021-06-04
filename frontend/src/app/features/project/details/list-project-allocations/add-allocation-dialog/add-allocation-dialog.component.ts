@@ -32,44 +32,22 @@ export class AddAllocationDialogComponent {
 
   autocomplete = this._fb.control("");
 
-  autocomplete$ = fromForm(this.autocomplete);
-
-  userOptions$ = this._usersService.getAllExceptCurrent();
-  
-  usersFiltered$ = combineLatest([this.autocomplete$, this.userOptions$]).pipe(
-    map(([autocomplete, userOptions]) => this.filter(userOptions, autocomplete))
-  );
-
   responsabilityOptions = Object.values(Responsability)
     .filter((responsability) => responsability !== Responsability.ScrumMaster);
 
-  displayFn(user: User) {
-    return user && user.name ? `${user.name} #${user.id}` : '';
-  }
-
-  userOnChange(event) {
-    const user = event.option.value;
-    this.user.patchValue(user);
-    this.autocomplete.setValue("");
-  }
-
-  filter(users: User[], userInput: string | number) {
-    if (!userInput) return users;
-    
-    let search = userInput.toString();
-
-    return users.filter(user =>
-      insensitiveContains(user.name, search) ||
-      user.id?.toString().includes(search)
-    );
-  }
+  userOptions$ = this._usersService.getAllExceptCurrent();
 
   onSave() {
     if (this.form.invalid) return;
-
+    
     let body = this.form.value;
     body = { userId: body.user.id, responsability: body.responsability };
 
     this._dialogRef.close(body);
+  }
+
+  onSelect(user) {
+    this.user.patchValue(user);
+    this.autocomplete.setValue("");
   }
 }
