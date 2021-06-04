@@ -66,18 +66,17 @@ export class DisplayTaskComponent implements AfterViewInit {
 
   form$ = fromForm(this.form);
 
-  epicOptions$ = combineLatest([this.form$, this.project$]).pipe(
-    map(([form, project]) => {
+  epicOptions$ = this.project$.pipe(
+    map((project) => {
         if (!project) return [];
 
-        let tasks = project.tasks;
-        tasks = tasks.filter(t => t.type.valueOf() === TaskType.Epic.valueOf());
+        let tasks = project.tasks.filter(t => t.type.valueOf() === TaskType.Epic.valueOf());
         return tasks;
     })
-)
+  );
 
   isTaskAssignedOrSpecial$ = this.user$.pipe(
-    map((user) => user?.id == this.task.userId),
+    map((user) => user.id == this.task.userId),
     map((isTaskAssigned) => isTaskAssigned || this.isSpecial)
   );
   
@@ -110,7 +109,7 @@ export class DisplayTaskComponent implements AfterViewInit {
 
     return users.filter(user =>
       insensitiveContains(user.name, search) ||
-      user.id?.toString().includes(search)
+      user.id.toString().includes(search)
     );
   }
 
@@ -121,7 +120,7 @@ export class DisplayTaskComponent implements AfterViewInit {
 
     return epics.filter(epic =>
       insensitiveContains(epic.title, search) ||
-      epic.id?.toString().includes(search)
+      epic.id.toString().includes(search)
     );
   }
 
