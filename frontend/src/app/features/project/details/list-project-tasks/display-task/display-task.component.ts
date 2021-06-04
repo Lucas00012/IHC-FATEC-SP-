@@ -31,6 +31,7 @@ export class DisplayTaskComponent implements AfterViewInit {
 
   @Input() task!: Task;
   @Input() isSpecial!: boolean;
+  @Input() isTaskAssigned!: boolean;
 
   @Output() update = new EventEmitter<Task>();
   @Output() delete = new EventEmitter();
@@ -73,11 +74,6 @@ export class DisplayTaskComponent implements AfterViewInit {
         let tasks = project.tasks.filter(t => t.type.valueOf() === TaskType.Epic.valueOf());
         return tasks;
     })
-  );
-
-  isTaskAssignedOrSpecial$ = this.user$.pipe(
-    map((user) => user.id == this.task.userId),
-    map((isTaskAssigned) => isTaskAssigned || this.isSpecial)
   );
   
   autocompleteUser$ = fromForm(this.autocompleteUser);

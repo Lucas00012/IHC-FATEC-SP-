@@ -25,6 +25,7 @@ export class ListProjectTasksComponent {
         private _projectsService: ProjectsService,
         private _printService: PrintSnackbarService,
         private _projectFeatureService: ProjectFeatureService,
+        private _authService: AuthService,
         private _fb: FormBuilder
     ) { }
 
@@ -42,6 +43,7 @@ export class ListProjectTasksComponent {
     isProductOwner$ = this._projectFeatureService.isProductOwner$;
     isScrumMaster$ = this._projectFeatureService.isScrumMaster$;
     project$ = this._projectFeatureService.currentProject$;
+    user$ = this._authService.user$;
 
     form$ = fromForm(this.form);
 
@@ -73,7 +75,7 @@ export class ListProjectTasksComponent {
     addTask() {
         this._dialog.open(TaskAddDialogComponent, {
             width: "400px",
-            height: "550px"
+            height: "520px"
         }).afterClosed().pipe(
             filter(body => !!body),
             switchMap(body => this._projectsService.addTask(this.projectId, body)),

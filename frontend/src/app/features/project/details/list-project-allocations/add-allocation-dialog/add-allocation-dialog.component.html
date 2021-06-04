@@ -2,8 +2,7 @@
     <h1 mat-dialog-title>Alocar usuário</h1>
     <div mat-dialog-content [formGroup]="form">
         <mat-form-field class="maximize" appearance="outline">
-            <mat-label>Selecione</mat-label>
-            <input matInput [formControl]="autocomplete" [matAutocomplete]="auto">
+            <input matInput [formControl]="autocomplete" [matAutocomplete]="auto" placeholder="-- SELECIONE --">
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="userOnChange($event)">
                 <mat-option *ngFor="let user of users" [value]="user">
                     {{user.name}} #{{user.id}}

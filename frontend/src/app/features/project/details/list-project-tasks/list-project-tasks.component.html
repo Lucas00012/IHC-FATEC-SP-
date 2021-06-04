@@ -28,7 +28,7 @@
     <div class="task-container">
         <ng-container *ngFor="let task of tasks">
             <app-display-task (update)="updateTask($event, task.id)" (delete)="deleteTask(task.id)"
-                [task]="task" [isSpecial]="(isSpecial$ | async) ?? false">
+                [task]="task" [isSpecial]="(isSpecial$ | async) ?? false" [isTaskAssigned]="(user$ | async)?.id == task.userId">
             </app-display-task>
         </ng-container>
     </div>

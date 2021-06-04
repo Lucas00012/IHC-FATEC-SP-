@@ -1,8 +1,7 @@
 <mat-card class="task-item" [formGroup]="form">
     <h2 class="font-upper">
         {{task.title}}
-        <mat-icon (click)="handleEdit(true)" matTooltip="Editar"
-            *ngIf="!editing && (isTaskAssignedOrSpecial$ | async)">
+        <mat-icon (click)="handleEdit(true)" matTooltip="Editar" *ngIf="!editing && (isTaskAssigned || isSpecial)">
             edit
         </mat-icon>
     </h2>
@@ -17,7 +16,7 @@
 
     <mat-form-field class="maximize" appearance="outline">
         <mat-label>Tipo *</mat-label>
-        <mat-select formControlName="type" *ngIf="editing && (isTaskAssignedOrSpecial$ | async); else notCanEditType">
+        <mat-select formControlName="type" *ngIf="editing && (isTaskAssigned || isSpecial); else notCanEditType">
             <mat-option *ngFor="let taskTypeOption of taskTypeOptions" [value]="taskTypeOption">
                 {{ taskTypeOption }}
             </mat-option>
@@ -45,7 +44,7 @@
 
     <mat-form-field class="maximize" appearance="outline">
         <mat-label>Status</mat-label>
-        <mat-select formControlName="status" *ngIf="editing && (isTaskAssignedOrSpecial$ | async); else notCanEditStatus">
+        <mat-select formControlName="status" *ngIf="editing && (isTaskAssigned || isSpecial); else notCanEditStatus">
             <mat-option *ngFor="let taskOption of taskStatusOptions" [value]="taskOption">
                 {{ taskOption }}
             </mat-option>
