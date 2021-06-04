@@ -42,11 +42,8 @@ export class DisplayTaskComponent implements AfterViewInit {
     userId: [null]
   });
 
-  get autocomplete() {
-    return this.form.get("userId") as FormControl;
-  }
-
   taskStatusOptions = Object.values(TaskStatus);
+
   editing = false;
 
   user$ = this._authService.user$;
@@ -57,28 +54,6 @@ export class DisplayTaskComponent implements AfterViewInit {
     map((user) => user.id == this.task.userId),
     map((isTaskAssigned) => isTaskAssigned || this.isSpecial)
   );
-  
-  autocomplete$ = fromForm(this.autocomplete);
-  
-  usersFiltered$ = combineLatest([this.autocomplete$, this.userOptions$]).pipe(
-    map(([autocomplete, userOptions]) => this.filter(userOptions, autocomplete))
-  );
-
-  displayFn(users: User[], userInput: any) {
-    const user = users.find(user => user.id == userInput);
-    return user ? `${user.name} #${user.id}` : userInput;
-  }
-
-  filter(users: User[], userInput: string | number) {
-    if (!userInput) return users;
-    
-    let search = userInput.toString();
-
-    return users.filter(user =>
-      insensitiveContains(user.name, search) ||
-      user.id?.toString().includes(search)
-    );
-  }
 
   handleEdit(value: boolean) {
     this.editing = value;
@@ -89,11 +64,19 @@ export class DisplayTaskComponent implements AfterViewInit {
 
   onUpdate() {
     if (this.form.invalid) return;
-
     this.update.emit(this.form.value);
   }
 
   onDelete() {
     this.delete.emit();
+  }
+
+  displayFnUsers(users: User[], userInput: string | any) {
+    const user = users.find(user => user.id == userInput);
+    return user ? `${user.name} #${user.id}` : userInput;
+  }
+
+  mapUserValue(user: User) {
+    return user.id;
   }
 }
