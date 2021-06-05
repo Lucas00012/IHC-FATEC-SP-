@@ -1,0 +1,84 @@
+<h1 mat-dialog-title>Detalhes da tarefa #{{ task.id }}</h1>
+<div [formGroup]="form">
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Título *</mat-label>
+        <input matInput formControlName="title" maxlength="20" [readonly]="!isSpecial">
+        <mat-error *ngIf="form.get('title')?.hasError('required')">O campo é obrigatório</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Descrição *</mat-label>
+        <textarea matInput formControlName="description" [readonly]="!isSpecial"></textarea>
+        <mat-error *ngIf="form.get('description')?.hasError('required')">O campo é obrigatório</mat-error>
+    </mat-form-field>
+
+    <div class="container-fields">
+        <mat-form-field class="maximize" appearance="outline">
+            <mat-label>Pontos da história</mat-label>
+            <input matInput formControlName="storyPoints" [readonly]="!isSpecial"/>
+        </mat-form-field>
+
+        <mat-form-field class="maximize" appearance="outline">
+            <mat-label>Tempo estimado (min)</mat-label>
+            <input matInput formControlName="minutesEstimated" [readonly]="!isSpecial"/>
+        </mat-form-field>
+    </div>
+
+    <div class="container-fields">
+        <app-autocomplete-users *ngIf="userOptions$ | async as users" formControlName="userId" 
+            [valueProperty]="'id'" [users]="users" [readonly]="!isSpecial">
+            <span slot="mat-label">Responsável</span>
+        </app-autocomplete-users>
+
+        <mat-form-field appearance="outline" *ngIf="epicsFiltered$ | async as epics">
+            <mat-label>Épico</mat-label>
+            <input matInput formControlName="epicId" [matAutocomplete]="auto" [readonly]="!isSpecial">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnEpics.bind(this, epics)">
+                <mat-option *ngFor="let epic of epics" [value]="epic.id">
+                    {{epic.title}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+
+    <div class="container-fields">
+        <mat-form-field appearance="outline">
+            <mat-label>Tipo *</mat-label>
+            <mat-select formControlName="type" *ngIf="isSpecial; else notCanEditType">
+                <mat-option *ngFor="let taskTypeOption of taskTypeOptions" [value]="taskTypeOption">
+                    {{ taskTypeOption }}
+                </mat-option>
+            </mat-select>
+            <ng-template #notCanEditType>
+                <input matInput formControlName="type" readonly>
+            </ng-template>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status" *ngIf="isTaskAssigned || isSpecial; else notCanEditStatus">
+                <mat-option *ngFor="let taskOption of taskStatusOptions" [value]="taskOption">
+                    {{ taskOption }}
+                </mat-option>
+            </mat-select>
+            <ng-template #notCanEditStatus>
+                <input matInput formControlName="status" readonly>
+            </ng-template>
+        </mat-form-field>
+    </div>
+
+    <div class="button-container split" *ngIf="projectId$ | async as projectId">
+        <div>
+            <button mat-raised-button color="primary" class="font-white" *ngIf="isTaskAssigned || isSpecial"
+                [disabled]="form.invalid" (click)="update(projectId)">
+                Salvar
+            </button>
+            <button mat-raised-button color="warn" (click)="delete(projectId)" *ngIf="isSpecial">
+                Excluir
+            </button>
+        </div>
+        <button mat-button mat-dialog-close>
+            <mat-icon>undo</mat-icon> Fechar
+        </button>
+    </div>
+</div>

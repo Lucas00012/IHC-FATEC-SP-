@@ -1,7 +1,7 @@
 <mat-card class="task-item">
     <h2>
         {{task.title}}
-        <mat-icon matTooltip="Ver detalhes">
+        <mat-icon matTooltip="Ver detalhes" (click)="showDetails()">
             view_list
         </mat-icon>
     </h2>

@@ -1,8 +1,10 @@
 import { AfterContentInit, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '@core/auth/auth.service';
 import { Project, Task, User } from '@core/entities/database-entities';
 import { ProjectFeatureService } from '@features/project/tools/project-feature.service';
 import { map } from 'rxjs/operators';
+import { EditTaskDialogComponent } from '../edit-task-dialog/edit-task-dialog.component';
 
 @Component({
   selector: 'app-display-task',
@@ -14,6 +16,7 @@ export class DisplayTaskComponent {
 
   constructor(
     private _projectFeatureService: ProjectFeatureService,
+    private _dialog: MatDialog
   ) { }
 
   @Input() task!: Task;
@@ -25,4 +28,16 @@ export class DisplayTaskComponent {
   userTask$ = this.usersProject$.pipe(
     map((users) => users.find(u => u.id == this.task.userId))
   );
+
+  showDetails() {
+    this._dialog.open(EditTaskDialogComponent, {
+      width: '600px',
+      height: '500px',
+      data: {
+        task: this.task,
+        isSpecial: this.isSpecial,
+        isTaskAssigned: this.isTaskAssigned
+      }
+    });
+  }
 }

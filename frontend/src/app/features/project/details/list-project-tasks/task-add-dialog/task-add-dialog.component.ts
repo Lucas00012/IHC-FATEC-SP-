@@ -3,12 +3,8 @@ import { AbstractControl, AsyncValidatorFn, FormBuilder, FormControl, Validation
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UsersService } from '@core/api/users.api';
 import { AuthService } from '@core/auth/auth.service';
-import { User } from '@core/entities/database-entities';
 import { TaskStatus, TaskType } from '@core/entities/value-entities';
 import { ProjectFeatureService } from '@features/project/tools/project-feature.service';
-import { fromForm, insensitiveContains } from '@shared/utils/utils';
-import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-task-add-dialog',

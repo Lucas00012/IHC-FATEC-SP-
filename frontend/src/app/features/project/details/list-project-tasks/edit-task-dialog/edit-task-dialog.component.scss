@@ -1,0 +1,10 @@
+textarea {
+    resize: none;
+    height: 170px;
+}
+
+.button-container {
+    div > button {
+        margin: 0.1em;
+    }
+}

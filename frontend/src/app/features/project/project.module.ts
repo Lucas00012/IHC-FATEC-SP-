@@ -13,6 +13,7 @@ import { DisplayTaskComponent } from './details/list-project-tasks/display-task/
 import { ListProjectAllocationsComponent } from './details/list-project-allocations/list-project-allocations.component';
 import { AddAllocationDialogComponent } from './details/list-project-allocations/add-allocation-dialog/add-allocation-dialog.component';
 import { AutocompleteUsersComponent } from "./tools/autocomplete-users/autocomplete-users.component";
+import { EditTaskDialogComponent } from './details/list-project-tasks/edit-task-dialog/edit-task-dialog.component';
 
 @NgModule({
     declarations: [
@@ -25,7 +26,8 @@ import { AutocompleteUsersComponent } from "./tools/autocomplete-users/autocompl
         DisplayTaskComponent,
         ListProjectAllocationsComponent,
         AddAllocationDialogComponent,
-        AutocompleteUsersComponent
+        AutocompleteUsersComponent,
+        EditTaskDialogComponent
     ],
     imports: [
         SharedModule,
