@@ -7,13 +7,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ShellComponent } from '@shared/shell/shell.component';
 import { SharedModule } from '@shared/shared.module';
 import { CoreModule } from '@core/core.module';
-import { EditTaskDialogComponent } from './features/projec/details/list-project-tasks/edit-task-dialog/edit-task-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ShellComponent,
-    EditTaskDialogComponent,
   ],
   imports: [
     BrowserModule,

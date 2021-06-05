@@ -1,4 +1,5 @@
-<h1 mat-dialog-title>Detalhes da tarefa #{{ task.id }}</h1>
+<h1 mat-dialog-title>DETALHES</h1>
+<h2>Tarefa nº {{ task.id }}</h2>
 <div [formGroup]="form">
     <mat-form-field class="maximize" appearance="outline">
         <mat-label>Título *</mat-label>
@@ -24,22 +25,20 @@
         </mat-form-field>
     </div>
 
-    <div class="container-fields">
-        <app-autocomplete-users *ngIf="userOptions$ | async as users" formControlName="userId" 
-            [valueProperty]="'id'" [users]="users" [readonly]="!isSpecial">
-            <span slot="mat-label">Responsável</span>
-        </app-autocomplete-users>
+    <app-autocomplete-users *ngIf="userOptions$ | async as users" formControlName="userId"
+        [valueProperty]="'id'" [users]="users" [readonly]="!isSpecial">
+        <span slot="mat-label">Responsável</span>
+    </app-autocomplete-users>
 
-        <mat-form-field appearance="outline" *ngIf="epicsFiltered$ | async as epics">
-            <mat-label>Épico</mat-label>
-            <input matInput formControlName="epicId" [matAutocomplete]="auto" [readonly]="!isSpecial">
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnEpics.bind(this, epics)">
-                <mat-option *ngFor="let epic of epics" [value]="epic.id">
-                    {{epic.title}}
-                </mat-option>
-            </mat-autocomplete>
-        </mat-form-field>
-    </div>
+    <mat-form-field appearance="outline" class="maximize" *ngIf="epicsFiltered$ | async as epics">
+        <mat-label>Épico</mat-label>
+        <input matInput formControlName="epicId" [matAutocomplete]="auto" [readonly]="!isSpecial">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnEpics.bind(this, epics)">
+            <mat-option *ngFor="let epic of epics" [value]="epic.id">
+                {{epic.title}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
 
     <div class="container-fields">
         <mat-form-field appearance="outline">

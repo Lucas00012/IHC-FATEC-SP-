@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProjectsService } from '@core/api/projects.api';
 import { Task } from '@core/entities/database-entities';
-import { TaskType } from '@core/entities/value-entities';
+import { TaskStatus, TaskType } from '@core/entities/value-entities';
 import { ProjectFeatureService } from '@features/project/tools/project-feature.service';
 import { PrintSnackbarService } from '@shared/print-snackbar/print-snackbar.service';
 import { fromForm, insensitiveContains } from '@shared/utils/utils';
@@ -34,6 +34,9 @@ export class EditTaskDialogComponent implements OnInit {
   task = this._data.task;
   isSpecial = this._data.isSpecial;
   isTaskAssigned = this._data.isTaskAssigned;
+
+  taskStatusOptions = Object.values(TaskStatus);
+  taskTypeOptions = Object.values(TaskType);
 
   form = this._fb.group({
     title: ["", [Validators.required, Validators.maxLength(20)]],

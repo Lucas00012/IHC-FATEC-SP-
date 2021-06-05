@@ -31,8 +31,8 @@ export class DisplayTaskComponent {
 
   showDetails() {
     this._dialog.open(EditTaskDialogComponent, {
-      width: '600px',
-      height: '500px',
+      width: '700px',
+      height: '600px',
       data: {
         task: this.task,
         isSpecial: this.isSpecial,
