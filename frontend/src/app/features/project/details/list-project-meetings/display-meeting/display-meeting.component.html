@@ -1,0 +1,23 @@
+<mat-card class="meeting-item">
+    <h2 class="font-upper">
+        {{meeting.title}}
+        <!-- <mat-icon matTooltip="Ver detalhes" (click)="showDetails()">
+            view_list
+        </mat-icon> -->
+    </h2>
+
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Tipo</mat-label>
+        <input matInput readonly value="{{ meeting.type }}">
+    </mat-form-field>
+
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Status</mat-label>
+        <input matInput readonly value="{{ meeting.status }}">
+    </mat-form-field>
+
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Descrição</mat-label>
+        <textarea matInput readonly value="{{ meeting.description }}"></textarea>
+    </mat-form-field>
+</mat-card>

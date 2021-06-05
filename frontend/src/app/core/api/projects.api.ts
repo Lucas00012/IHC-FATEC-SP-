@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable, Optional } from "@angular/core";
 import { AuthService } from "@core/auth/auth.service";
-import { Allocation, Project, Task } from "@core/entities/database-entities";
+import { Allocation, Meeting, Project, Task } from "@core/entities/database-entities";
 import { Responsability, TaskType } from "@core/entities/value-entities";
 import { buildQuery } from "@shared/utils/utils";
 import { combineLatest, Observable, of, throwError } from "rxjs";
@@ -235,6 +235,32 @@ export class ProjectsService {
                     return allTasks;
                 }),
                 switchMap(tasks => this._http.patch<Project>(url, tasks))
+            ))
+        );
+    }
+
+    addMeeting(id: number | undefined | null, body: Meeting) {
+        let url = `${this._baseUrl}/projects/${id}`;
+
+        return this._authService.user$.pipe(
+            take(1),
+            switchMap(user => this.get(id).pipe(
+                switchMap(project => !project.allocations.some(a => a.userId == user?.id)
+                    ? throwError("O projeto pertence a outro usuário")
+                    : of(project)
+                ),
+                map(project => {
+                    let userExists = project.allocations?.some(u => u.userId == body.creatorId);
+
+                    body.creatorId = userExists ? body.creatorId : null;
+                    body.id = uuidv4();
+                    if(!project.meetings) project.meetings = [];
+                    project.meetings.push(body);
+
+                    let allMeetings = { meetings: project.meetings };
+                    return allMeetings;
+                }),
+                switchMap(meetings => this._http.patch<Project>(url, meetings))
             ))
         );
     }

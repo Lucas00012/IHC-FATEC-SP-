@@ -1,0 +1,66 @@
+<h1 mat-dialog-title>Criar reunião</h1>
+<div [formGroup]="form">
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Tipo *</mat-label>
+        <mat-select formControlName="type">
+            <mat-option *ngFor="let type of typeOptions" [value]="type">
+                {{ type }}
+            </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('type')?.hasError('required')">O campo é obrigatório</mat-error>
+    </mat-form-field>
+    <!-- <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Sprint *</mat-label>
+        <mat-select formControlName="sprint">
+            <mat-option *ngFor="let sprint of sprintOptions" [value]="sprint.id">
+                {{ sprint.title }}
+            </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('type')?.hasError('required')">O campo é obrigatório</mat-error>
+    </mat-form-field> -->
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Título *</mat-label>
+        <input matInput formControlName="title" maxlength="30">
+        <mat-error *ngIf="form.get('title')?.hasError('required')">O campo é obrigatório</mat-error>
+    </mat-form-field>
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Descrição *</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+        <mat-error *ngIf="form.get('description')?.hasError('required')">O campo é obrigatório</mat-error>
+    </mat-form-field>
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Tempo estimado (min)</mat-label>
+        <input matInput formControlName="minutesEstimated"/>
+    </mat-form-field>
+    <!-- <mat-form-field class="example-chip-list" *ngIf="userOptions$ | async as users" appearance="outline">
+        <mat-label>Participantes</mat-label>
+        <mat-chip-list #chipList aria-label="Seleção de participantes">
+          <mat-chip
+            *ngFor="let user of userOptions$"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(user)">
+            {{ user.name }}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            placeholder="Adicionar usuário..."
+            #userInput
+            formControlName="participants"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this, users)" (optionSelected)="userOnChange($event)">
+          <mat-option *ngFor="let user of filteredUsers | async" [value]="mapValue(user)">
+            {{user.name}} #{{user.id}} <span *ngIf="(user$ | async)?.id == user.id">(Você)</span>
+          </mat-option>
+        </mat-autocomplete>
+    </mat-form-field> -->
+    <div>
+        <button mat-raised-button color="primary" class="font-white"
+            (click)="onSave()" [disabled]="form.invalid">Salvar</button>
+        <button mat-button mat-dialog-close>Cancelar</button>
+    </div>
+</div>

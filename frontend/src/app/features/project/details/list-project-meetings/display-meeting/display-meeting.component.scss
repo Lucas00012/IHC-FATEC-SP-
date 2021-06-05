@@ -1,0 +1,32 @@
+@import "src/app/shared/material/theme.scss";
+
+.meeting-item {
+    width: 320px;
+    height: 450px;
+
+    h2 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.1em;
+
+        background-color: $primary-color;
+        color: white;
+        text-align: center;
+
+        mat-icon {
+            cursor: pointer;
+        }
+    }
+
+    textarea {
+        resize: none;
+        height: 110px;
+    }
+}
+
+.button-container {
+    div > button {
+        margin: 0.1em;
+    }
+}

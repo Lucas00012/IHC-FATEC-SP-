@@ -24,7 +24,7 @@
 </mat-card>
 
 <ng-container *ngIf="tasks$ | async as tasks; else loading">
-    <p *ngIf="!tasks.length">O projeto ainda não possui tarefas</p>
+    <p *ngIf="!tasks.length">Não há tarefas</p>
     <div class="task-container">
         <ng-container *ngFor="let task of tasks">
             <app-display-task *ngIf="info$ | async as info"

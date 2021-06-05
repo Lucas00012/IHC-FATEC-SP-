@@ -7,7 +7,10 @@
           <app-list-project-allocations [projectId]="projectId">
           </app-list-project-allocations>
         </mat-tab>
-        <mat-tab label="Reuniões"> Reuniões </mat-tab>
+        <mat-tab label="Reuniões"> 
+          <app-list-project-meetings [projectId]="projectId">
+          </app-list-project-meetings>
+        </mat-tab>
         <mat-tab label="Sprints"> Sprints </mat-tab>
       </mat-tab-group>
 </ng-container>
