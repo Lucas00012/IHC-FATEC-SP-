@@ -151,6 +151,27 @@ export class ProjectsService {
         );
     }
 
+    editAllocation(id: number | undefined | null, body: Allocation) {
+        let url = `${this._baseUrl}/projects/${id}`;
+
+        return this._authService.user$.pipe(
+            take(1),
+            switchMap(user => this.get(id).pipe(
+                switchMap(project => !project.allocations.some(a => a.userId == user.id && a.responsability == Responsability.ScrumMaster)
+                    ? throwError("Você não pode adicionar alocação")
+                    : of(project)
+                ),
+                map(project => {
+                    let allocation = project.allocations.find(a => a.userId == body.userId);
+                    allocation.responsability = body.responsability;
+
+                    return { allocations: project.allocations };
+                }),
+                switchMap(obj => this._http.patch<Project>(url, obj))
+            ))
+        );
+    }
+
     removeTask(id: number | undefined | null, taskId: string | undefined) {
         let url = `${this._baseUrl}/projects/${id}`;
 

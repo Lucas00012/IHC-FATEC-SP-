@@ -14,6 +14,7 @@ import { fromForm } from '@shared/utils/utils';
 import { combineLatest, Subject } from 'rxjs';
 import { catchError, filter, map, switchMap, take, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { AddAllocationDialogComponent } from './add-allocation-dialog/add-allocation-dialog.component';
+import { EditAllocationDialogComponent } from './edit-allocation-dialog/edit-allocation-dialog.component';
 
 @Component({
   selector: 'app-list-project-allocations',
@@ -59,15 +60,13 @@ export class ListProjectAllocationsComponent implements OnInit, OnDestroy {
   private _destroy$ = new Subject();
 
   user$ = this._authService.user$;
-  usersProject$ = this._projectFeatureService.usersProject$;
+  usersProjectExceptCurrent$ = this._projectFeatureService.usersProjectExceptCurrent$;
   allocation$ = this._projectFeatureService.currentAllocation$;
   project$ = this._projectFeatureService.currentProject$;
 
   search$ = fromForm(this.search);
 
-  dataSource$ = combineLatest([this.user$, this.usersProject$]).pipe(
-    map(([user, usersProject]) => usersProject.filter(u => u.id != user.id)),
-    withLatestFrom(this.project$),
+  dataSource$ = combineLatest([this.usersProjectExceptCurrent$, this.project$]).pipe(
     map(([users, project]) => users.map(user => 
       ({
         ...user,
@@ -94,6 +93,20 @@ export class ListProjectAllocationsComponent implements OnInit, OnDestroy {
       filter((body) => !!body),
       switchMap((body) => this._projectsService.addAllocation(this.projectId, body)),
       tap(_ => this._printService.printSuccess("Usuário alocado com sucesso!")),
+      tap(_ => this._projectFeatureService.notifyProjectChanges()),
+      catchError((err) => this._printService.printError(err, err))
+    ).subscribe();
+  }
+
+  editAllocation(userRow) {
+    this._dialog.open(EditAllocationDialogComponent, {
+      width: "400px",
+      height: "350px",
+      data: userRow
+    }).afterClosed().pipe(
+      filter((body) => !!body),
+      switchMap((body) => this._projectsService.editAllocation(this.projectId, body)),
+      tap(_ => this._printService.printSuccess("Alocação editada com sucesso!")),
       tap(_ => this._projectFeatureService.notifyProjectChanges()),
       catchError((err) => this._printService.printError(err, err))
     ).subscribe();

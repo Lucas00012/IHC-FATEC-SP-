@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Atualizar alocação</h1>
+<div mat-dialog-content [formGroup]="form">
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Usuário</mat-label>
+        <input matInput value="{{ data.name }} #{{ data.id }}" readonly>
+    </mat-form-field>
+
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Responsabilidade</mat-label>
+        <mat-select formControlName="responsability">
+            <mat-option *ngFor="let responsability of responsabilityOptions" [value]="responsability">
+                {{ responsability }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button color="primary" class="font-white"
+        (click)="onSave()" [disabled]="form.invalid">
+        Salvar
+    </button>
+    <button mat-button mat-dialog-close>Cancelar</button>
+</div>

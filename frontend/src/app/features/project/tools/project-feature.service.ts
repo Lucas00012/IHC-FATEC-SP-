@@ -54,6 +54,14 @@ export class ProjectFeatureService {
         shareReplay(1)
     );
 
+    usersProjectExceptCurrent$ = combineLatest([
+        this.usersProject$,
+        this._authService.user$
+    ]).pipe(
+        map(([usersProject, user]) => usersProject?.filter(u => u.id !== user.id)),
+        shareReplay(1)
+    );
+
     updateCurrentProjectId(id: number | null) {
         this.currentProjectId$.next(id);
     }
