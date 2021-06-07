@@ -66,11 +66,11 @@ export class ListProjectAllocationsComponent implements OnInit, OnDestroy {
 
   search$ = fromForm(this.search);
 
-  dataSource$ = combineLatest([this.usersProjectExceptCurrent$, this.project$]).pipe(
-    map(([users, project]) => users.map(user => 
+  dataSource$ = combineLatest([this.project$, this.usersProjectExceptCurrent$]).pipe(
+    map(([project, users]) => users.map(user => 
       ({
         ...user,
-        responsability: project.allocations.find(a => a.userId == user.id).responsability 
+        responsability: project?.allocations?.find(a => a.userId == user.id)?.responsability 
       }) 
     )),
     tap((data) => this.dataSource.data = data),

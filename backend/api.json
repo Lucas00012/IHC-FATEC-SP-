@@ -55,7 +55,7 @@
           "type": "Tarefa",
           "description": "a",
           "status": "Pendente",
-          "userId": 2,
+          "userId": null,
           "epicId": "2b6e2ea7-153a-4726-a5eb-143f98c282b8",
           "storyPoints": null,
           "minutesEstimated": null,
@@ -67,16 +67,16 @@
       "name": "abc",
       "allocations": [
         {
-          "userId": 2,
-          "responsability": "Funcionário"
-        },
-        {
           "userId": 3,
           "responsability": "Product Owner"
         },
         {
           "userId": 1,
           "responsability": "Scrum Master"
+        },
+        {
+          "userId": 2,
+          "responsability": "Funcionário"
         }
       ],
       "creation": 1621701044527,
@@ -120,7 +120,5 @@
       "tasks": []
     }
   ],
-  "sprints": [
-    
-  ]
+  "sprints": []
 }

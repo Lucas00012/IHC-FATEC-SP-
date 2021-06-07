@@ -17,10 +17,11 @@ const routes: Routes = [
             { path: "list", component: ListComponent, canActivate: [ProjectGuard] },
             { path: "register", component: RegisterComponent, canActivate: [ProjectGuard] },
             { 
-                path: "details/:projectId",
+                path: ":projectId",
                 canActivate: [ProjectGuard],
                 children: [
-                    { path: "", component: DetailsComponent }
+                    { path: "", pathMatch: "full", redirectTo: "details" },
+                    { path: "details", component: DetailsComponent }
                 ] 
             }
         ] 
