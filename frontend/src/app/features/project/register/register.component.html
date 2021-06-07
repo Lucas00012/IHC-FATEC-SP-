@@ -1,38 +1,34 @@
 <ng-container [formGroup]="form">
     <mat-card>
-        <div class="split menu">
+        <header>
             <h1>Cadastrar</h1>
             <button mat-raised-button color="primary" class="font-white" [disabled]="form.invalid"
                 (click)="create()">
                 <mat-icon>save</mat-icon>
                 Salvar
             </button>
-        </div>
+        </header>
         <mat-form-field class="maximize" appearance="outline">
-            <mat-label>Nome (projeto) *</mat-label>
+            <mat-label>Nome *</mat-label>
             <input matInput formControlName="name">
             <mat-error *ngIf="form.get('name')?.hasError('required')">O campo é obrigatório</mat-error>
-        </mat-form-field>
-        <mat-form-field class="maximize" appearance="outline">
-            <mat-label>Nome ou código (usuário)</mat-label>
-            <input matInput [formControl]="autocomplete" [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="userOnChange($event)">
-                <mat-option *ngFor="let user of usersFiltered$ | async" [value]="user">
-                {{user.name}} #{{user.id}}
-                </mat-option>
-            </mat-autocomplete>
         </mat-form-field>
     </mat-card>
     
     <mat-card formArrayName="allocations">
-        <h1>
-            <mat-icon>people</mat-icon>
-            Usuários
-        </h1>
-        <p *ngIf="!allocations.controls.length">
-            Você ainda não adicionou usuários.
-        </p>
+        <header>
+            <h1>
+                <mat-icon>people</mat-icon>
+                Usuários
+            </h1>
+            <app-autocomplete-users *ngIf="users$ | async as users" [users]="users" (selected)="userOnChange($event)" [formControl]="autocomplete">
+                <span slot="mat-label">-- SELECIONE --</span>
+            </app-autocomplete-users>
+        </header>
         <div class="user-container">
+            <p *ngIf="!allocations.controls.length">
+                Você ainda não adicionou usuários.
+            </p>
             <ng-container *ngFor="let allocation of allocations.controls; let i = index" [formGroupName]="i">
                 <div *ngIf="allocation.value.user as user" class="user-item">
                     <mat-form-field appearance="outline">

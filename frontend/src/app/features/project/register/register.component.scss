@@ -37,8 +37,23 @@
 }
 
 .user-container {
+    height: 350px;
     max-height: 350px;
     overflow-y: auto;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    app-autocomplete-users {
+        width: 400px;
+    }
+
+    mat-form-field, button {
+        margin: 0.5em;
+    }
 }
 
 mat-card {

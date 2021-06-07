@@ -48,24 +48,11 @@ export class RegisterComponent {
   responsabilityOptions = Object.values(Responsability)
     .filter((responsability) => responsability !== Responsability.ScrumMaster);
 
-  autocomplete$ = fromForm(this.autocomplete);
-
   user$ = this._authService.user$;
 
-  users$ = this._usersService.getAllExceptCurrent().pipe(
-    shareReplay(1)
-  );
+  users$ = this._usersService.getAllExceptCurrent();
 
-  usersFiltered$ = combineLatest([this.autocomplete$, this.users$]).pipe(
-    map(([autocomplete, users]) => this.filter(users, autocomplete))
-  );
-
-  displayFn(user: User) {
-    return user && user.name ? user.name : '';
-  }
-
-  userOnChange(event) {
-    const user = event.option.value;
+  userOnChange(user) {
     this.addAllocation(user);
     this.autocomplete.setValue("");
   }
@@ -83,14 +70,6 @@ export class RegisterComponent {
 
   removeAllocation(index: number) {
     this.allocations.removeAt(index);
-  }
-
-  filter(users: User[], userInput: any) {
-    userInput = typeof userInput === "string" ? userInput : userInput.name;
-    return users.filter(user =>
-      insensitiveContains(user.name, userInput) ||
-      user.id?.toString().includes(userInput)
-    );
   }
 
   create() {
