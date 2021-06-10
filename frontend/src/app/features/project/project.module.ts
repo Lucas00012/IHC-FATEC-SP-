@@ -18,6 +18,7 @@ import { EditAllocationDialogComponent } from './details/list-project-allocation
 import { ListProjectSprintsComponent } from './details/list-project-sprints/list-project-sprints.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { AddSprintComponent } from './navigation/add-sprint/add-sprint.component';
+import { CurrentProjectSprintComponent } from './details/current-project-sprint/current-project-sprint.component';
 
 @NgModule({
     declarations: [
@@ -35,7 +36,8 @@ import { AddSprintComponent } from './navigation/add-sprint/add-sprint.component
         EditAllocationDialogComponent,
         ListProjectSprintsComponent,
         NavigationComponent,
-        AddSprintComponent
+        AddSprintComponent,
+        CurrentProjectSprintComponent
     ],
     imports: [
         SharedModule,

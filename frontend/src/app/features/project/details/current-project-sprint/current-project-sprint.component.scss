@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    align-items: center;
+    padding-bottom: 2em;
+    overflow-x: scroll;
+    margin-bottom: 5em;
+}
+
+.main {
+    margin-bottom: 5em;
+}
+
+textarea {
+    resize: none !important;
+    height: 110px;
+}
+
+.items-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    mat-form-field {
+        width: 400px;
+    }
+
+    mat-form-field, button {
+        margin: 0.5em;
+    }
+}

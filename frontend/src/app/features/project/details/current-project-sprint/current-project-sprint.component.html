@@ -1,0 +1,50 @@
+<ng-container *ngIf="sprint$ | async as sprint; else loading">
+    <ng-container *ngIf="sprint.value as projSprint; else notSprint">
+        <mat-card class="main">
+            <header class="items-header">
+                <h1>
+                    <mat-icon>description</mat-icon>
+                    Dados Gerais
+                </h1>
+                <button mat-raised-button color="primary" class="font-white" *ngIf="isScrumMaster$ | async">
+                    <mat-icon>highlight_off</mat-icon>
+                    Fechar SPRINT
+                </button>
+            </header>
+            <mat-form-field class="maximize" appearance="outline">
+                <mat-label>Objetivo</mat-label>
+                <textarea matInput value="{{ projSprint.objective }}" readonly></textarea>
+            </mat-form-field>
+        </mat-card>
+        <h1>
+            <mat-icon>task</mat-icon>
+            TAREFAS
+        </h1>
+        <div class="container">
+            <ng-container *ngFor="let task of projSprint.tasks">
+                <app-display-task *ngIf="taskInfo$ | async as info"
+                    [task]="task" [isSpecial]="info[1]" [isTaskAssigned]="info[0].id == task.userId" [deleteEnabled]="false">
+                </app-display-task>
+            </ng-container>
+        </div>
+        <h1>
+            <mat-icon>meeting_room</mat-icon>
+            REUNIÕES
+        </h1>
+        <div class="container">
+
+        </div>
+    </ng-container>
+
+    <ng-template #notSprint>
+        <p>OOPS!</p>
+        <p>Não há nenhuma SPRINT aberta no momento</p>
+    </ng-template>
+</ng-container>
+
+
+<ng-template #loading>
+    <div class="loading-spinner">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>

@@ -22,6 +22,7 @@ export class DisplayTaskComponent {
   @Input() task!: Task;
   @Input() isSpecial!: boolean;
   @Input() isTaskAssigned!: boolean;
+  @Input() deleteEnabled = true;
 
   usersProject$ = this._projectFeatureService.usersProject$;
 
@@ -37,7 +38,8 @@ export class DisplayTaskComponent {
       data: {
         task: this.task,
         isSpecial: this.isSpecial,
-        isTaskAssigned: this.isTaskAssigned
+        isTaskAssigned: this.isTaskAssigned,
+        deleteEnabled: this.deleteEnabled
       }
     });
   }

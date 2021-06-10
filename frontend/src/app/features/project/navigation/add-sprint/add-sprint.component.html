@@ -1,1 +1,74 @@
-<p>add-sprint works!</p>
+<ng-container *ngIf="form$ | async as form; else loading" [formGroup]="form">
+    <header class="split">
+        <h1>CRIAR SPRINT</h1>
+        <button mat-raised-button color="primary" class="font-white" [disabled]="form.invalid" (click)="createSprint()">
+            <mat-icon>save</mat-icon>
+            Salvar
+        </button>
+    </header>
+    <mat-card>
+        <header class="items-header">
+            <h1>
+                <mat-icon>description</mat-icon>
+                Dados Gerais
+            </h1>
+        </header>
+        <mat-form-field class="maximize" appearance="outline">
+            <mat-label>Objetivo</mat-label>
+            <textarea matInput formControlName="objective"></textarea>
+            <mat-error *ngIf="form.get('objective')?.hasError('required')">O campo é obrigatório</mat-error>
+        </mat-form-field>
+    </mat-card>
+    <mat-card formArrayName="tasks">
+        <header class="items-header">
+            <h1>
+                <mat-icon>task</mat-icon>
+                Tarefas
+            </h1>
+            <mat-form-field appearance="outline" *ngIf="tasksFiltered$ | async as tasksFiltered">
+                <mat-label>-- SELECIONE --</mat-label>
+                <input matInput [formControl]="autocompleteTask" [matAutocomplete]="autoTasks">
+                <mat-autocomplete #autoTasks="matAutocomplete" (optionSelected)="taskOnChange($event)">
+                  <mat-option *ngFor="let task of tasksFiltered" [value]="task" class="multiline-mat-option">
+                    <div>{{task.title}}</div>
+                    <div>#{{task.id}}</div>
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+        </header>
+        <div class="container">
+            <p *ngIf="!tasks.controls.length">
+                Você ainda não adicionou tarefas (MÍNIMO UMA).
+            </p>
+            <ng-container *ngFor="let task of tasks.controls; let i = index" [formGroupName]="i">
+                <div *ngIf="task.value as task" class="item">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Tarefa</mat-label>
+                        <input matInput value="{{ task.title }}" readonly>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Código</mat-label>
+                        <input matInput value="{{ task.id }}" readonly>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Tipo</mat-label>
+                        <input matInput value="{{ task.type }}" readonly>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Status</mat-label>
+                        <input matInput value="{{ task.status }}" readonly>
+                    </mat-form-field>
+                    <button mat-fab color="primary" class="delete-button" mat-icon-button (click)="removeTask(i)" matTooltip="Remover">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </ng-container>
+        </div>
+    </mat-card>
+</ng-container>
+
+<ng-template #loading>
+    <div class="loading-spinner">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>

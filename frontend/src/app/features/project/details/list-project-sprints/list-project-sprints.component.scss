@@ -1,5 +1,13 @@
+mat-card {
+    margin-bottom: 2em;
+}
+
 table {
     width: 100%;
+}
+
+::ng-deep .tooltip-pre-line {
+    white-space: pre-line !important;
 }
 
 header {

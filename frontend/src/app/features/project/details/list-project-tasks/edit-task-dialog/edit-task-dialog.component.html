@@ -72,7 +72,7 @@
                 [disabled]="form.invalid" (click)="update(projectId)">
                 Salvar
             </button>
-            <button mat-raised-button color="warn" (click)="delete(projectId)" *ngIf="isSpecial">
+            <button mat-raised-button color="warn" (click)="delete(projectId)" *ngIf="isSpecial && deleteEnabled">
                 Excluir
             </button>
         </div>

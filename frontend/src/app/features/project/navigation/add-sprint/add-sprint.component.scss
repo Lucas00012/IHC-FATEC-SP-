@@ -1,0 +1,47 @@
+.container {
+    height: 350px;
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.items-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    mat-form-field {
+        width: 400px;
+    }
+
+    mat-form-field, button {
+        margin: 0.5em;
+    }
+}
+
+textarea {
+    resize: none !important;
+    height: 110px;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1em;
+
+    mat-form-field {
+        flex: 1;
+    }
+}
+
+mat-card {
+    margin-bottom: 2em;
+}
+
+.delete-button {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 1.5em;
+    color: white !important;
+}

@@ -1,6 +1,7 @@
 import { Inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { ProjectsService } from "@core/api/projects.api";
+import { SprintsService } from "@core/api/sprint.api";
 import { UsersService } from "@core/api/users.api";
 import { AuthService } from "@core/auth/auth.service";
 import { Responsability } from "@core/entities/value-entities";
@@ -11,6 +12,7 @@ import { catchError, map, shareReplay, switchMap, tap } from "rxjs/operators";
 export class ProjectFeatureService {
     constructor(
         private _projectsService: ProjectsService,
+        private _sprintsService: SprintsService,
         private _authService: AuthService,
         private _usersService: UsersService,
         private _router: Router
@@ -59,6 +61,27 @@ export class ProjectFeatureService {
         this._authService.user$
     ]).pipe(
         map(([usersProject, user]) => usersProject?.filter(u => u.id !== user.id)),
+        shareReplay(1)
+    );
+
+    private _currentSprint$ = this.currentProjectId$.pipe(
+        switchMap((projectId) => this._sprintsService.getAll({ projectId })),
+        map((sprints) => sprints.filter(s => !s.endDate)),
+        map((sprints) => sprints[0]),
+        shareReplay(1)
+    );
+
+    currentSprint$ = combineLatest([
+        this._currentSprint$,
+        this.currentProject$
+    ]).pipe(
+        map(([sprint, project]) => {
+            if (!sprint) return null;
+            return {
+                ...sprint,
+                tasks: project?.tasks?.filter(t => sprint.tasksId.indexOf(t.id) >= 0)
+            }
+        }),
         shareReplay(1)
     );
 

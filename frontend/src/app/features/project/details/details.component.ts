@@ -28,6 +28,7 @@ export class DetailsComponent implements AfterContentInit {
         'alocações',
         'reuniões',
         'sprints',
+        'sprint_backlog'
     ];
 
     projectId$ = this._projectFeatureService.currentProjectId$;

@@ -18,6 +18,11 @@ mat-icon {
     }
 }
 
+.multiline-mat-option.mat-option {
+    white-space: normal;
+    line-height: normal;
+}
+
 .maximize {
     width: 100%
 }
@@ -44,6 +49,7 @@ mat-icon {
     justify-content: space-between;
     align-items: center;
 }
+
 
 @import 'app/shared/print-snackbar/print-snackbar.service.theme.scss';
 @include print-snackbar-theme();

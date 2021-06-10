@@ -17,7 +17,7 @@
     margin-bottom: 0.5em;
 }
 
-.user-item {
+.item {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -42,7 +42,7 @@
     overflow-y: auto;
 }
 
-header {
+.items-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
