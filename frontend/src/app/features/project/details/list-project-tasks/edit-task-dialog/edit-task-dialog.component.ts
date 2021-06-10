@@ -105,7 +105,7 @@ export class EditTaskDialogComponent implements OnInit {
       tap(_ => this._printService.printSuccess("Tarefa removida com sucesso!")),
       tap(_ => this._projectFeatureService.notifyProjectChanges()),
       tap(_ => this._dialogRef.close()),
-      catchError(err => this._printService.printError("Erro ao remover a tarefa", err))
+      catchError(err => this._printService.printError("Erro ao remover a tarefa: " + err, err))
     ).subscribe();
   }
 }
