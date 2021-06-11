@@ -44,14 +44,16 @@ export class ListProjectMeetingsComponent {
 
   typeOptions = ["Todas", ...Object.values(MeetingType)];
 
-  meetings$ = combineLatest([this.form$, this.project$, this.allocation$]).pipe(
+  meetings$ = combineLatest([
+    this.form$, 
+    this.project$, 
+    this.allocation$
+  ]).pipe(
     map(([form, project, allocation]) => {
       if(!project) return [];
 
       let meetings = project.meetings;
-
-      if(!meetings)
-        return [];
+      if(!meetings) return [];
 
       if(form.type != "Todas")
         meetings = meetings.filter(m => m.type == form.type);
@@ -65,8 +67,8 @@ export class ListProjectMeetingsComponent {
     })
   );
 
-  pastMeetings$ = combineLatest([this.meetings$]).pipe(
-    map(([meetings]) => {
+  pastMeetings$ = this.meetings$.pipe(
+    map((meetings) => {
 
         if(!meetings) return [];
 
@@ -82,8 +84,8 @@ export class ListProjectMeetingsComponent {
     })
   );
 
-  laterMeetings$ = combineLatest([this.meetings$]).pipe(
-    map(([meetings]) => {
+  laterMeetings$ = this.meetings$.pipe(
+    map((meetings) => {
 
         if(!meetings) return [];
 
@@ -99,8 +101,8 @@ export class ListProjectMeetingsComponent {
     })
   );
 
-  todayMeetings$ = combineLatest([this.meetings$]).pipe(
-    map(([meetings]) => {
+  todayMeetings$ = this.meetings$.pipe(
+    map((meetings) => {
 
         if(!meetings) return [];
         

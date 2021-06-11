@@ -44,6 +44,7 @@ export class ListProjectTasksComponent {
     isScrumMaster$ = this._projectFeatureService.isScrumMaster$;
     project$ = this._projectFeatureService.currentProject$;
     user$ = this._authService.user$;
+    projectReload$ = this._projectFeatureService.projectReload$;
 
     form$ = fromForm(this.form);
 
@@ -54,16 +55,19 @@ export class ListProjectTasksComponent {
         map(([isProductOwner, isScrumMaster]) => isProductOwner || isScrumMaster)
     );
 
-    sprint$ = this._projectFeatureService.currentSprint$.pipe(
-        map((sprint) => ({ value: sprint }))
-      );
+    sprint$ = this._projectFeatureService.currentSprint$;
 
-    sprintTasks$ = combineLatest([this.form$, this.project$, this.allocation$, this.sprint$]).pipe(
+    sprintTasks$ = combineLatest([
+        this.form$, 
+        this.project$, 
+        this.allocation$, 
+        this.sprint$
+    ]).pipe(
         map(([form, project, allocation, sprint]) => {
             if (!project) return [];
-            if (!sprint.value) return [];
+            if (!sprint) return [];
 
-            let tasks = sprint.value.tasks;
+            let tasks = sprint.tasks;
 
             if (form.status != "Todas")
                 tasks = tasks.filter(t => t.status == form.status);
@@ -77,7 +81,9 @@ export class ListProjectTasksComponent {
         })
     );
 
-    sprints$ = this._sprintService.getAll({ projectId: this.projectId } );
+    sprints$ = this.projectReload$.pipe(
+        switchMap(_ => this._sprintService.getAll({ projectId: this.projectId }))
+    ); 
 
     tasks$ = combineLatest([this.form$, this.project$, this.allocation$, this.sprint$, this.sprints$]).pipe(
         map(([form, project, allocation, sprint, sprints]) => {
@@ -93,8 +99,8 @@ export class ListProjectTasksComponent {
 
             tasks = tasks.filter(t => insensitiveContains(t.title, form.title));
 
-            if(sprint.value){
-                let sprintTaskIds = sprint.value.tasksId;
+            if(sprint){
+                let sprintTaskIds = sprint.tasksId;
                 tasks = tasks.filter(t => !sprintTaskIds.includes(t.id));
             }
 

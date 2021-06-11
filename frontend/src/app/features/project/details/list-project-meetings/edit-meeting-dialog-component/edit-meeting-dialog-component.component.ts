@@ -40,27 +40,14 @@ export class EditMeetingDialogComponent implements OnInit {
   userOptions$ = this._projectFeatureService.usersProject$;
   allocation$ = this._projectFeatureService.currentAllocation$;
 
-  currentUserId$ = combineLatest([this.allocation$]).pipe(
-    map(([allocation]) => {
-
-      console.log(allocation);
-
-      if(!allocation) return null;
-      return allocation.userId;
-    })
-  );
-  
-
   form = this._fb.group({
     type: [null, [Validators.required]],
     title: ["", [Validators.required, Validators.maxLength(30)]],
     description: ["", [Validators.required]],
-    //sprintId: [null],
     participants: [null],
     startTime: [null, [Validators.required]],
     endTime: [null, [Validators.required]],
     date: [null, [Validators.required]],
-    creatorId: this.currentUserId$
   });
 
   update(projectId: number) {

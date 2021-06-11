@@ -20,8 +20,11 @@ export class ProjectFeatureService {
 
     projectReload$ = new BehaviorSubject<void | null>(null);
 
-    projectOptions$ = combineLatest([this._authService.user$, this.projectReload$]).pipe(
-        switchMap(([user, _]) => this._projectsService.getAll(user?.id)),
+    projectOptions$ = combineLatest([
+        this._authService.user$, 
+        this.projectReload$
+    ]).pipe(
+        switchMap(([user]) => this._projectsService.getAll(user?.id)),
         shareReplay(1)
     );
 
@@ -34,7 +37,10 @@ export class ProjectFeatureService {
         shareReplay(1)
     );
 
-    currentAllocation$ = combineLatest([this._authService.user$, this.currentProject$]).pipe(
+    currentAllocation$ = combineLatest([
+        this._authService.user$, 
+        this.currentProject$
+    ]).pipe(
         map(([user, project]) => project?.allocations.find(a => a.userId == user?.id)),
         shareReplay(1)
     );
@@ -64,7 +70,10 @@ export class ProjectFeatureService {
         shareReplay(1)
     );
 
-    private _currentSprint$ = combineLatest([this.currentProjectId$, this.projectReload$]).pipe(
+    private _currentSprint$ = combineLatest([
+        this.currentProjectId$, 
+        this.projectReload$
+    ]).pipe(
         switchMap(([projectId]) => this._sprintsService.getAll({ projectId })),
         map((sprints) => sprints.filter(s => !s.endDate)),
         map((sprints) => sprints[0]),
