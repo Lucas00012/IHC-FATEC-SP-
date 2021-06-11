@@ -2,6 +2,7 @@ import { AfterContentInit, AfterViewInit, ChangeDetectionStrategy, ChangeDetecto
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '@core/auth/auth.service';
 import { Project, Task, User } from '@core/entities/database-entities';
+import { TaskType } from '@core/entities/value-entities';
 import { ProjectFeatureService } from '@features/project/tools/project-feature.service';
 import { map } from 'rxjs/operators';
 import { EditTaskDialogComponent } from '../edit-task-dialog/edit-task-dialog.component';
@@ -13,6 +14,8 @@ import { EditTaskDialogComponent } from '../edit-task-dialog/edit-task-dialog.co
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DisplayTaskComponent {
+
+  public taskTypeEnum = TaskType;
 
   constructor(
     private _projectFeatureService: ProjectFeatureService,

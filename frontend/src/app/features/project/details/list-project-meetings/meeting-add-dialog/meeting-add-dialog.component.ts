@@ -34,8 +34,8 @@ export class MeetingAddDialogComponent {
     minutesEstimated: [null],
     creatorId: this._authService.user$.pipe(map(user => user.id)),
     participants: [],
-    startTime: Date.now(),
-    endTime: Date.now(),
+    startTime: null,
+    endTime: null,
     date: Date.now()
   });
 

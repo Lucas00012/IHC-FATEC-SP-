@@ -75,9 +75,15 @@ export class ListProjectMeetingsComponent {
 
         if(!meetings) return [];
 
+        let today = new Date(Date.now());
+        const todayYear = today.getFullYear();
+        const todayMonth = today.getMonth();
+        const todayDay = today.getDate();
+        let todayDate = new Date(todayYear, todayMonth, todayDay);
+
         return meetings.filter(m => 
           !!m.date 
-          && Date.parse(m.date.toString()).valueOf() <= Date.now().valueOf());
+          && this.getNewDate(m.date).getTime() < todayDate.getTime());
     })
   );
 
@@ -86,9 +92,15 @@ export class ListProjectMeetingsComponent {
 
         if(!meetings) return [];
 
+        let today = new Date(Date.now());
+        const todayYear = today.getFullYear();
+        const todayMonth = today.getMonth();
+        const todayDay = today.getDate();
+        let todayDate = new Date(todayYear, todayMonth, todayDay);
+
         return meetings.filter(m => 
           !!m.date 
-          && Date.parse(m.date.toString()).valueOf() >= Date.now().valueOf());
+          && this.getNewDate(m.date).getTime() > todayDate.getTime());
     })
   );
 

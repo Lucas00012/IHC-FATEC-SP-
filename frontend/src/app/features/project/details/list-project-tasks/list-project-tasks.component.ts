@@ -2,6 +2,7 @@ import { Component, Input } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { ProjectsService } from "@core/api/projects.api";
+import { SprintsService } from '@core/api/sprint.api';
 import { AuthService } from "@core/auth/auth.service";
 import { TaskStatus, TaskType } from "@core/entities/value-entities";
 import { ProjectFeatureService } from "@features/project/tools/project-feature.service";
@@ -24,6 +25,7 @@ export class ListProjectTasksComponent {
         private _printService: PrintSnackbarService,
         private _projectFeatureService: ProjectFeatureService,
         private _authService: AuthService,
+        private _sprintService: SprintsService,
         private _fb: FormBuilder
     ) { }
 
@@ -52,8 +54,33 @@ export class ListProjectTasksComponent {
         map(([isProductOwner, isScrumMaster]) => isProductOwner || isScrumMaster)
     );
 
-    tasks$ = combineLatest([this.form$, this.project$, this.allocation$]).pipe(
-        map(([form, project, allocation]) => {
+    sprint$ = this._projectFeatureService.currentSprint$.pipe(
+        map((sprint) => ({ value: sprint }))
+      );
+
+    sprintTasks$ = combineLatest([this.form$, this.project$, this.allocation$, this.sprint$]).pipe(
+        map(([form, project, allocation, sprint]) => {
+            if (!project) return [];
+            if (!sprint.value) return [];
+
+            let tasks = sprint.value.tasks;
+
+            if (form.status != "Todas")
+                tasks = tasks.filter(t => t.status == form.status);
+
+            if (form.onlyAssigned)
+                tasks = tasks.filter(t => t.userId == allocation.userId);
+
+            tasks = tasks.filter(t => insensitiveContains(t.title, form.title));
+            
+            return tasks;
+        })
+    );
+
+    sprints$ = this._sprintService.getAll({ projectId: this.projectId } );
+
+    tasks$ = combineLatest([this.form$, this.project$, this.allocation$, this.sprint$, this.sprints$]).pipe(
+        map(([form, project, allocation, sprint, sprints]) => {
             if (!project) return [];
 
             let tasks = project.tasks;
@@ -65,6 +92,19 @@ export class ListProjectTasksComponent {
                 tasks = tasks.filter(t => t.userId == allocation.userId);
 
             tasks = tasks.filter(t => insensitiveContains(t.title, form.title));
+
+            if(sprint.value){
+                let sprintTaskIds = sprint.value.tasksId;
+                tasks = tasks.filter(t => !sprintTaskIds.includes(t.id));
+            }
+
+            sprints = sprints.filter(t => t.endDate);
+
+            if(sprints){
+                sprints.forEach(element => {
+                    tasks = tasks.filter(t => !(t.status == TaskStatus.Done && element.tasksId.includes(t.id)));
+                });
+            }
 
             return tasks;
         })

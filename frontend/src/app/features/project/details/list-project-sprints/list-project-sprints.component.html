@@ -23,7 +23,7 @@
         <ng-container matColumnDef="objective">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Objetivo </th>
             <td mat-cell *matCellDef="let element" [matTooltip]="element.objective" [matTooltipClass]="'tooltip-pre-line'"> 
-                [passe o mouse]
+                {{ element.objective }}
             </td>
         </ng-container>
     

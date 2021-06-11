@@ -17,6 +17,18 @@
       "email": "kleber@gmail.com",
       "password": "@123123",
       "id": 3
+    },
+    {
+      "name": "Murilo Afonso",
+      "email": "ma@hotmail.com",
+      "password": "123123",
+      "id": 4
+    },
+    {
+      "name": "Murilo Condutta",
+      "email": "mc@hotmail.com",
+      "password": "123123",
+      "id": 5
     }
   ],
   "projects": [
@@ -174,8 +186,8 @@
           "title": "Bug #1",
           "type": "Bug",
           "description": "Bug #1",
-          "status": "Pendente",
-          "userId": null,
+          "status": "Concluída",
+          "userId": 1,
           "epicId": null,
           "storyPoints": null,
           "minutesEstimated": null,
@@ -224,6 +236,61 @@
           "storyPoints": null,
           "minutesEstimated": null,
           "id": "79d84f51-ad8b-4d2e-8925-84833e189b28"
+        },
+        {
+          "title": "Visual duplicado",
+          "type": "Bug",
+          "description": "Visual duplicado",
+          "status": "Pendente",
+          "userId": null,
+          "epicId": null,
+          "storyPoints": null,
+          "minutesEstimated": null,
+          "id": "899d48b2-800a-41d5-b02f-2b3b17c1625e"
+        },
+        {
+          "title": "Bug #2",
+          "type": "Bug",
+          "description": "Bug #2",
+          "status": "Pendente",
+          "userId": null,
+          "epicId": null,
+          "storyPoints": null,
+          "minutesEstimated": null,
+          "id": "bd4c1c8b-7ca9-4661-b7a5-b60c6a78f8c3"
+        },
+        {
+          "title": "Bug #3",
+          "type": "Bug",
+          "description": "Bug #3\n",
+          "status": "Pendente",
+          "userId": null,
+          "epicId": null,
+          "storyPoints": null,
+          "minutesEstimated": null,
+          "id": "57458400-4108-4c2a-85b8-1db4eb2e882f"
+        },
+        {
+          "title": "Erro na página 2 -UI",
+          "type": "Bug",
+          "description": "\nErro na página 2 -UI\n",
+          "status": "Pendente",
+          "userId": null,
+          "epicId": null,
+          "storyPoints": null,
+          "minutesEstimated": null,
+          "id": "72cb8cf3-51ea-479f-aea8-dd3880c60e6d"
+        },
+        {
+          "title": "Criar homepage",
+          "type": "Tarefa",
+          "description": "Criar homepage",
+          "status": "Pendente",
+          "userId": null,
+          "epicId": null,
+          "storyPoints": null,
+          "minutesEstimated": null,
+          "id": "d094f666-0e65-4263-ab7a-3e02505d56cf"
         }
       ],
       "creation": 1622925850027,
@@ -349,11 +416,297 @@
           "endTime": "13:15",
           "date": "2021-06-09T03:00:00.000Z",
           "id": "28920096-dbd8-4a21-a1c0-3336c81919dc"
+        },
+        {
+          "type": "Outra",
+          "title": "Alinhamento apresentação",
+          "description": "Alinhamento apresentação",
+          "minutesEstimated": null,
+          "creatorId": null,
+          "participants": null,
+          "startTime": "20:40",
+          "endTime": "10:30",
+          "date": "2021-06-10T03:00:00.000Z",
+          "id": "2c15dae6-662e-43e9-b242-f34c479c37b0"
+        }
+      ]
+    },
+    {
+      "name": "Sistema de RH",
+      "allocations": [
+        {
+          "userId": 1,
+          "responsability": "Product Owner"
+        },
+        {
+          "userId": 2,
+          "responsability": "Membro"
+        },
+        {
+          "userId": 3,
+          "responsability": "Membro"
+        },
+        {
+          "userId": 4,
+          "responsability": "Scrum Master"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Alinhamento inicial",
+          "type": "Tarefa",
+          "description": "Alinhamento inicial com o time.",
+          "status": "Pendente",
+          "userId": null,
+          "epicId": null,
+          "storyPoints": null,
+          "minutesEstimated": null,
+          "id": "dbd35419-2da1-46d1-9ab0-594d87dd4e1f"
+        },
+        {
+          "title": "Protótipo interface",
+          "type": "Tarefa",
+          "description": "Protótipo interface",
+          "status": "Pendente",
+          "userId": null,
+          "epicId": null,
+          "storyPoints": null,
+          "minutesEstimated": null,
+          "id": "c950161e-e6c5-441f-99f3-17e9be98447e"
+        },
+        {
+          "title": "POC Backend",
+          "type": "Tarefa",
+          "description": "Utilizando json server.",
+          "status": "Pendente",
+          "userId": null,
+          "epicId": null,
+          "storyPoints": null,
+          "minutesEstimated": null,
+          "id": "40aec4e4-60b4-4bf8-835f-c2367061ae25"
+        }
+      ],
+      "creation": 1623366186454,
+      "id": 6,
+      "meetings": [
+        {
+          "type": "Sprint Planning",
+          "title": "Planning sprint 1",
+          "description": "Planning sprint 1",
+          "minutesEstimated": null,
+          "creatorId": null,
+          "participants": null,
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "date": "2021-06-10T03:00:00.000Z",
+          "id": "5b75d5dc-66ea-4ed1-97c9-06d1348f0549"
+        },
+        {
+          "type": "Outra",
+          "title": "Reunião inicial",
+          "description": "Reunião inicial do projeto",
+          "minutesEstimated": null,
+          "creatorId": null,
+          "participants": null,
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "date": "2021-06-09T03:00:00.000Z",
+          "id": "d2040b0d-56cb-4c84-813e-f8997b3201ca"
+        }
+      ]
+    },
+    {
+      "name": "Sistema SCRUM",
+      "allocations": [
+        {
+          "userId": 1,
+          "responsability": "Product Owner"
+        },
+        {
+          "userId": 3,
+          "responsability": "Membro"
+        },
+        {
+          "userId": 5,
+          "responsability": "Scrum Master"
+        },
+        {
+          "userId": 2,
+          "responsability": "Membro"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Criar Protótipo IHC",
+          "type": "História de usuário",
+          "description": "Criar Protótipo IHC",
+          "status": "Concluída",
+          "userId": 1,
+          "epicId": "e54be1fa-4a57-4c11-ab7e-e96780d097f4",
+          "storyPoints": "5",
+          "minutesEstimated": "100",
+          "id": "2bf41b98-878c-4e4b-b2c3-c396507bb0b9"
+        },
+        {
+          "title": "Protótipo API",
+          "type": "História de usuário",
+          "description": "Protótipo API",
+          "status": "Em andamento",
+          "userId": 3,
+          "epicId": null,
+          "storyPoints": null,
+          "minutesEstimated": null,
+          "id": "eba468c9-f6ed-4459-94e8-53a83040b265"
+        },
+        {
+          "title": "Bug #1",
+          "type": "Bug",
+          "description": "Bug #1",
+          "status": "Concluída",
+          "userId": 5,
+          "epicId": null,
+          "storyPoints": "1",
+          "minutesEstimated": "15",
+          "id": "0a5703c6-5956-4f65-a412-0f2b8a99ce85"
+        },
+        {
+          "title": "Bug #2",
+          "type": "Bug",
+          "description": "Bug #2",
+          "status": "Concluída",
+          "userId": 2,
+          "epicId": null,
+          "storyPoints": null,
+          "minutesEstimated": null,
+          "id": "a91af65e-78a4-4994-8eea-890c0cbc0cef"
+        },
+        {
+          "title": "Epico inicial",
+          "type": "Épico",
+          "description": "Epico inicial",
+          "status": "Pendente",
+          "userId": null,
+          "epicId": null,
+          "storyPoints": null,
+          "minutesEstimated": null,
+          "id": "e54be1fa-4a57-4c11-ab7e-e96780d097f4"
+        }
+      ],
+      "creation": 1623368898886,
+      "id": 7,
+      "meetings": [
+        {
+          "type": "Outra",
+          "title": "Alinhamento inicial",
+          "description": "Conversar com o time.",
+          "minutesEstimated": null,
+          "creatorId": null,
+          "participants": null,
+          "startTime": "20:00",
+          "endTime": "10:30",
+          "date": "2021-06-10T03:00:00.000Z",
+          "id": "334fc398-b20d-4513-8a21-2c0aed2a4b33"
+        },
+        {
+          "type": "Sprint Planning",
+          "title": "Planning  #1",
+          "description": "Planning  #1",
+          "minutesEstimated": null,
+          "creatorId": null,
+          "participants": null,
+          "startTime": "10:00",
+          "endTime": "12:00",
+          "date": "2021-06-14T03:00:00.000Z",
+          "id": "6b891a7f-127a-4118-92af-6992592fdcd5"
+        },
+        {
+          "type": "Sprint Review",
+          "title": "Sprint Review #1",
+          "description": "Sprint Review #1",
+          "minutesEstimated": null,
+          "creatorId": null,
+          "participants": null,
+          "startTime": "9:00",
+          "endTime": "10:30",
+          "date": "2021-06-10T03:00:00.000Z",
+          "id": "9d8785a0-492a-43a1-b14c-64ddd3ac3b66"
         }
       ]
     }
   ],
   "sprints": [
-
+    {
+      "projectId": 5,
+      "objective": "Planejamento inicial do projeto.",
+      "startDate": 1623360395089,
+      "endDate": 1623364544422,
+      "tasksId": [
+        "7aad4c0c-fd17-4954-b00c-92e103c57bc9",
+        "44954695-8a82-48ff-85d4-50636574da06",
+        "83182e15-ab3b-468e-867d-7f8ac1d8c554",
+        "79d84f51-ad8b-4d2e-8925-84833e189b28",
+        "e8401db4-025c-4963-94b9-6de93823087b",
+        "c5097594-5717-41cd-aba5-c298621f12e3",
+        "b4248f4b-0045-417c-8a8b-1f585117578f"
+      ],
+      "id": 1
+    },
+    {
+      "projectId": 5,
+      "objective": "Segundo alinhamento.",
+      "startDate": 1623364868353,
+      "endDate": 1623365435568,
+      "tasksId": [
+        "e8401db4-025c-4963-94b9-6de93823087b",
+        "7aad4c0c-fd17-4954-b00c-92e103c57bc9",
+        "44954695-8a82-48ff-85d4-50636574da06"
+      ],
+      "id": 2
+    },
+    {
+      "projectId": 5,
+      "objective": "Quarto alinhamento.",
+      "startDate": 1623365714458,
+      "endDate": null,
+      "tasksId": [
+        "e8401db4-025c-4963-94b9-6de93823087b",
+        "44954695-8a82-48ff-85d4-50636574da06",
+        "c5097594-5717-41cd-aba5-c298621f12e3"
+      ],
+      "id": 3
+    },
+    {
+      "projectId": 6,
+      "objective": "Primeira sprint.",
+      "startDate": 1623368075174,
+      "endDate": null,
+      "tasksId": [
+        "dbd35419-2da1-46d1-9ab0-594d87dd4e1f"
+      ],
+      "id": 4
+    },
+    {
+      "projectId": 7,
+      "objective": "Sprint inicial",
+      "startDate": 1623369462042,
+      "endDate": 1623369836948,
+      "tasksId": [
+        "2bf41b98-878c-4e4b-b2c3-c396507bb0b9",
+        "eba468c9-f6ed-4459-94e8-53a83040b265",
+        "0a5703c6-5956-4f65-a412-0f2b8a99ce85"
+      ],
+      "id": 5
+    },
+    {
+      "projectId": 7,
+      "objective": "Sprint #2.",
+      "startDate": 1623369900610,
+      "endDate": null,
+      "tasksId": [
+        "eba468c9-f6ed-4459-94e8-53a83040b265",
+        "a91af65e-78a4-4994-8eea-890c0cbc0cef"
+      ],
+      "id": 6
+    }
   ]
 }

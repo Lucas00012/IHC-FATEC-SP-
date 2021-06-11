@@ -23,6 +23,21 @@
     </div>
 </mat-card>
 
+<h2>Sprint Backlog</h2>
+<ng-container *ngIf="sprintTasks$ | async as sprintTasks; else loading">
+    <p *ngIf="!sprintTasks.length">Não há tarefas</p>
+    <div class="task-container">
+        <ng-container *ngFor="let task of sprintTasks">
+            <app-display-task *ngIf="info$ | async as info"
+                [task]="task" [isSpecial]="info[1]" [isTaskAssigned]="info[0].id == task.userId">
+            </app-display-task>
+        </ng-container>
+    </div>
+</ng-container>
+
+<hr/>
+
+<h2>Product Backlog</h2>
 <ng-container *ngIf="tasks$ | async as tasks; else loading">
     <p *ngIf="!tasks.length">Não há tarefas</p>
     <div class="task-container">

@@ -8,6 +8,7 @@ import { PrintSnackbarService } from '@shared/print-snackbar/print-snackbar.serv
 import { catchError, map, switchMap, switchMapTo, tap } from 'rxjs/operators';
 import { fromForm, insensitiveContains } from '@shared/utils/utils';
 import { combineLatest } from 'rxjs';
+import { TaskStatus } from '@core/entities/value-entities';
 
 function notHasTasks(control: AbstractControl) : ValidationErrors | null {
   let tasks = control.value;
@@ -54,7 +55,8 @@ export class AddSprintComponent {
   }
 
   tasksOption$ = this.project$.pipe(
-    map((project) => project.tasks)
+    map((project) => project.tasks),
+    map((tasks) => tasks.filter(t => t.status != TaskStatus.Done))
   );
 
   tasksFiltered$ = combineLatest([

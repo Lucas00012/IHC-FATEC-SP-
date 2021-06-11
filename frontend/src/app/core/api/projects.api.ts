@@ -285,16 +285,14 @@ export class ProjectsService {
 
                     // TODO: Check if the user logged in is the creator of the meeting
 
-                    if (body.creatorId !== null) {
-                        meeting.title = body.title;
-                        meeting.description = body.description;
-                        meeting.date = body.date;
-                        meeting.startTime = body.startTime;
-                        meeting.endTime = body.endTime;
-                        meeting.type = body.type;
-                        meeting.decisions = body.decisions;
-                        meeting.participants = body.participants;
-                    }
+                    meeting.title = body.title;
+                    meeting.description = body.description;
+                    meeting.date = body.date;
+                    meeting.startTime = body.startTime;
+                    meeting.endTime = body.endTime;
+                    meeting.type = body.type;
+                    meeting.decisions = body.decisions;
+                    meeting.participants = body.participants;
 
                     let allMeetings = { meetings: project.meetings };
                     return allMeetings;

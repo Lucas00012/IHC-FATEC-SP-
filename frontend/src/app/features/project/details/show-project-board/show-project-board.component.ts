@@ -37,15 +37,16 @@ export class ShowProjectBoardComponent {
     map(([isProductOwner, isScrumMaster]) => isProductOwner || isScrumMaster)
   );
 
-  //TODO: actualSprintId = 
+  sprint$ = this._projectFeatureService.currentSprint$.pipe(
+    map((sprint) => ({ value: sprint }))
+  );
 
-  tasks$ = combineLatest([this.project$]).pipe(
-    map(([project]) => {
+  tasks$ = combineLatest([this.project$, this.sprint$]).pipe(
+    map(([project, sprint]) => {
         if (!project) return [];
+        if (!sprint.value) return [];
 
-        let tasks = project.tasks;
-        //TODO: tasks = tasks.filter(t => t.sprintId == actualSprintId);
-
+        let tasks = sprint.value.tasks;
         return tasks;
     })
   );

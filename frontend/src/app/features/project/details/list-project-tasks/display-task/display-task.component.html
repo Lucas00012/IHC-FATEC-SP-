@@ -1,5 +1,9 @@
 <mat-card class="task-item" *ngIf="!isBodySimpler">
     <h2 class="font-upper">
+        <mat-icon *ngIf="task.type === taskTypeEnum.Bug">bug_report</mat-icon>
+        <mat-icon *ngIf="task.type === taskTypeEnum.Epic">all_inbox</mat-icon>
+        <mat-icon *ngIf="task.type === taskTypeEnum.Task">assignment</mat-icon>
+        <mat-icon *ngIf="task.type === taskTypeEnum.UserStory">book</mat-icon>
         {{task.title}}
         <mat-icon matTooltip="Ver detalhes" (click)="showDetails()">
             view_list
@@ -32,6 +36,10 @@
 
 <mat-card class="task-item-simpler" *ngIf="isBodySimpler">
     <h2 class="font-upper">
+        <mat-icon *ngIf="task.type === taskTypeEnum.Bug">bug_report</mat-icon>
+        <mat-icon *ngIf="task.type === taskTypeEnum.Epic">all_inbox</mat-icon>
+        <mat-icon *ngIf="task.type === taskTypeEnum.Task">assignment</mat-icon>
+        <mat-icon *ngIf="task.type === taskTypeEnum.UserStory">book</mat-icon>
         {{task.title}}
         <mat-icon matTooltip="Ver detalhes" (click)="showDetails()">
             view_list
