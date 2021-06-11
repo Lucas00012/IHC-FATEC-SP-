@@ -250,14 +250,13 @@ export class ProjectsService {
             take(1),
             switchMap(user => this.get(id).pipe(
                 switchMap(project => !project.allocations.some(a => a.userId == user?.id)
-                    ? throwError("O projeto pertence a outro usuário")
+                    ? throwError("A reunião pertence a outro usuário")
                     : of(project)
                 ),
                 map(project => {
-                    let userExists = project.allocations?.some(u => u.userId == body.creatorId);
-
-                    body.creatorId = userExists ? body.creatorId : null;
+                    body.creatorId = user.id;
                     body.id = uuidv4();
+
                     if(!project.meetings) project.meetings = [];
                     project.meetings.push(body);
 
@@ -282,8 +281,6 @@ export class ProjectsService {
                 map(project => {
 
                     let meeting = <Meeting>project.meetings.find(m => m.id == meetingId);
-
-                    // TODO: Check if the user logged in is the creator of the meeting
 
                     meeting.title = body.title;
                     meeting.description = body.description;

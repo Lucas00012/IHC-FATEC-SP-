@@ -33,7 +33,6 @@ export class ListProjectMeetingsComponent {
     type: ["Todas"],
     status: ["Todas"],
     title: [""],
-    //sprintId: ["Todas"],
     myMeetings: [false]
   });
 
@@ -43,8 +42,7 @@ export class ListProjectMeetingsComponent {
 
   form$ = fromForm(this.form);
 
-  typeOptions=["Todas", ...Object.values(MeetingType)];
-  //sprintOptions=[{id: 0, title: "Todas"}];
+  typeOptions = ["Todas", ...Object.values(MeetingType)];
 
   meetings$ = combineLatest([this.form$, this.project$, this.allocation$]).pipe(
     map(([form, project, allocation]) => {
@@ -60,9 +58,6 @@ export class ListProjectMeetingsComponent {
 
       if(form.myMeetings)
         meetings = meetings.filter(m => m.creatorId == allocation.userId);
-
-      //if(form.sprint.id != 0)
-      //  meetings = meetings.filter(m => m.sprintId == form.sprint.id);
 
       meetings = meetings.filter(m => insensitiveContains(m.title, form.title));
 
