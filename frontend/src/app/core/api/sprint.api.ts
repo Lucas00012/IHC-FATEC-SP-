@@ -40,11 +40,11 @@ export class SprintsService {
         return this.getAll({ projectId: body.projectId }).pipe(
             switchMap((sprints) => {
                 if (sprints.some(s => !s.endDate && s.projectId == body.projectId)) {
-                    throwError("Erro ao cadastrar a sprint.")
+                    return throwError("Tente mais tarde")
                 }
 
                 return this._http.post<Sprint>(url, body).pipe(
-                    catchError(_ => throwError("Erro ao cadastrar a sprint."))
+                    catchError(_ => throwError("Tente mais tarde"))
                 );
             })
         );
