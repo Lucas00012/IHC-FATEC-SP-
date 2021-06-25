@@ -105,7 +105,7 @@ export class AddSprintComponent {
       tap(_ => this._printService.printSuccess("Sprint criada com sucesso!")),
       tap(_ => this._projectFeatureService.notifyProjectChanges()),
       tap((sprint) => this._router.navigate(["/project", sprint.projectId, "details"])),
-      catchError((err) => this._printService.printError("Erro ao criar a sprint:" + err, err))
+      catchError((err) => this._printService.printError("Erro ao criar a sprint: " + err, err))
     ).subscribe();
   }
 }

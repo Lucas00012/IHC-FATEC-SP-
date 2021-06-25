@@ -4,7 +4,7 @@ import { AuthService } from "@core/auth/auth.service";
 import { Sprint } from "@core/entities/database-entities";
 import { buildQuery } from "@shared/utils/utils";
 import { throwError } from "rxjs";
-import { catchError, map } from "rxjs/operators";
+import { catchError, map, switchMap } from "rxjs/operators";
 import { API_BASE_URL } from "./api.module";
 
 @Injectable({
@@ -37,8 +37,16 @@ export class SprintsService {
     add(body: Sprint) {
         let url = `${this._baseUrl}/sprints`;
 
-        return this._http.post<Sprint>(url, body).pipe(
-            catchError(_ => throwError("Erro ao cadastrar a sprint."))
+        return this.getAll({ projectId: body.projectId }).pipe(
+            switchMap((sprints) => {
+                if (sprints.some(s => !s.endDate && s.projectId == body.projectId)) {
+                    return throwError("Tente mais tarde")
+                }
+
+                return this._http.post<Sprint>(url, body).pipe(
+                    catchError(_ => throwError("Tente mais tarde"))
+                );
+            })
         );
     }
 
